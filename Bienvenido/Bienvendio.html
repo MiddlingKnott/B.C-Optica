@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Optica Bc</title>
+  <link rel="stylesheet" href="StyleBienvendio.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <!-- Aquí tu logo -->
+      <img src="logo.jpeg" alt="Logo Óptica BC">
+    </div>
+
+    <button onclick="window.location.href='clientes.html'">Clientes</button>
+    <button onclick="window.location.href='historial.html'">Historial Clínico</button>
+    <button onclick="window.location.href='inventario.html'">Inventario</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Bienvenido</h1>
+      <div class="datetime">
+        <div id="fecha"></div>
+        <div id="hora"></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Panel de avisos -->
+      <aside class="left-content">
+        <div class="avisos-box">
+          <h2>Avisos de Inventario</h2>
+          <ul id="lista-avisos">
+            <li class="placeholder">Cargando avisos...</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Accesos y calendario -->
+      <section class="right-content">
+        <div class="actions-box">
+          <h2>Accesos Directos</h2>
+          <div class="grid-actions">
+            <button onclick="window.location.href='nuevo_cliente.html'">Nuevo Cliente</button>
+            <button onclick="window.location.href='buscar_cliente.html'">Buscar Cliente</button>
+            <button onclick="window.location.href='añadir_producto.html'">Añadir Producto</button>
+            <button onclick="window.location.href='buscar_producto.html'">Buscar Producto</button>
+          </div>
+        </div>
+
+        <div class="calendar-box">
+          <h2>Calendario</h2>
+          <input type="date" id="calendar">
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="JsBienvenido.js"></script>
+</body>
+</html>
