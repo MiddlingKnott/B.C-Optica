@@ -44,7 +44,7 @@ body {
   padding: 12px;
   border: none;
   background-color: white;
-  color: #333;
+  color: #000;
   border-radius: 10px;
   font-size: 15px;
   cursor: pointer;
@@ -74,7 +74,7 @@ header {
 }
 header h1 {
   margin: 0;
-  color: #333; /* Turquesa */
+  color: #000; /* Turquesa */
 }
 .datetime { text-align: right; color: #333; font-size: 14px; }
 
