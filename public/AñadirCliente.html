@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agregar Nuevo Cliente</title>
+  <link rel="stylesheet" href="/public/css/StyleAñadirCliente.css">
+  <script defer src="/public/js/JSAñadirCliente.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="/public/Imagenes/logo.jpeg" alt="Logo Óptica BC">
+    </div>
+    <button onclick="window.location.href='Inicio.html'">Inicio</button>
+    <button onclick="window.location.href='Clientes.html'">Clientes</button>
+    <button onclick="window.location.href='Historial.html'">Historial Clínico</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Agregar Nuevo Cliente</h1>
+      <div class="datetime">
+        <div id="fecha"></div>
+        <div id="hora"></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <form id="formCliente">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="fecha_nac">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nac" name="fecha_nac" required>
+
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" required>
+
+        <button type="submit">Agregar Cliente</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

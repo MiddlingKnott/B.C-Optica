@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario</title>
+  <link rel="stylesheet" href="/public/css/StyleInventario.css">
+  <script defer src="/public/js/JsInventario.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="/public/Imagenes/logo.jpeg" alt="Logo Óptica BC">
+    </div>
+    <button onclick="window.location.href='Clientes.html'">Clientes</button>
+    <button onclick="window.location.href='Historial.html'">Historial Clínico</button>
+    <button onclick="window.location.href='Inventario.html'">Inventario</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Inventario</h1>
+      <div class="datetime">
+        <div id="date"></div>
+        <div id="time"></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="categoria">
+        <h3>Armazones de línea</h3>
+        <button id="mostrar-linea">Mostrar</button>
+        <div id="tabla-linea" class="tabla"></div>
+      </section>
+
+      <section class="categoria">
+        <h3>Armazones de Línea Bodega</h3>
+        <button id="mostrar-bodega">Mostrar</button>
+        <div id="tabla-bodega" class="tabla"></div>
+      </section>
+
+      <section class="categoria">
+        <h3>Armazones Promoción</h3>
+        <button id="mostrar-promocion">Mostrar</button>
+        <div id="tabla-promocion" class="tabla"></div>
+      </section>
+
+      <section class="categoria">
+        <h3>Artículos Auxiliares de óptica</h3>
+        <button id="mostrar-auxiliares">Mostrar</button>
+        <div id="tabla-auxiliares" class="tabla"></div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
