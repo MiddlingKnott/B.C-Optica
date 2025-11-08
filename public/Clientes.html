@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial Clientes</title>
+  <link rel="stylesheet" href="/public/css/StyleClientes.css">
+  <script defer src="/public/js/JSClientes.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="/public/Imagenes/logo.jpeg" alt="Logo Óptica">
+    </div>
+    <button onclick="window.location.href='Inicio.html'">Inicio</button>
+    <button onclick="window.location.href='Historial clinico.html'">Historial Cinico</button>
+    <button onclick="window.location.href='Inventario.html'">Inventario</button>
+
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Historial Clientes</h1>
+      <div class="datetime">
+        <span id="date"></span><br>
+        <span id="time"></span>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Acciones: Agregar + Buscar (añadidas) -->
+      <div class="top-actions">
+        <button class="add-btn">Agregar Cliente</button>
+
+        <div class="search-box">
+          <input type="text" id="search" placeholder="Buscar cliente...">
+          <button class="search-btn">🔍</button>
+        </div>
+      </div>
+
+      <div class="registro-box">
+        <h2>Datos del Paciente</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Aquí se insertarán los datos desde la BD -->
+            <tr><td>Ejemplo 1</td><td>15/04/1990</td><td>35</td></tr>
+            <tr><td>Ejemplo 2</td><td>22/10/1985</td><td>40</td></tr>
+            <tr><td>Ejemplo 3</td><td>09/07/2000</td><td>25</td></tr>
+            <!-- filas vacías restantes -->
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

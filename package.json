@@ -1,0 +1,25 @@
+{
+  "name": "b.c-optica",
+  "version": "1.0.0",
+  "description": "BC-Optica\r Archivo  de Informacion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiddlingKnott/B.C-Optica.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiddlingKnott/B.C-Optica/issues"
+  },
+  "homepage": "https://github.com/MiddlingKnott/B.C-Optica#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.15.3",
+    "sequelize": "^6.37.7"
+  }
+}
