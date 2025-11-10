@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial Clínico</title>
+  <link rel="stylesheet" href="/public/css/StyleHistorialClinico.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="/public/Imagenes/logo.jpeg" alt="Logo">
+    </div>
+    <button id="inicioBtn">Inicio</button>
+    <button id="clientesBtn">Clientes</button>
+    <button id="inventarioBtn">Inventario</button>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Historial Clínico</h1>
+      <div class="datetime">
+        <div id="date"></div>
+        <div id="time"></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="search-box">
+        <input type="text" placeholder="Buscar paciente...">
+        <button class="search-btn">Buscar</button>
+      </div>
+
+      <div class="paciente-info">
+        <h2>Nombre del Paciente: <span id="nombrePaciente">Juan Pérez</span></h2>
+      </div>
+
+      <!-- Tabla 1 -->
+      <div class="tabla-section">
+        <h3>Antecedentes Patológicos</h3>
+        <table>
+          <tr>
+            <th>Personales</th>
+            <th>No Personales</th>
+            <th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tabla 2 -->
+      <div class="tabla-section">
+        <h3>Síntomas</h3>
+        <table>
+          <tr>
+            <th>Visión Borrosa</th>
+            <th>Operaciones Oculares</th>
+            <th>Ojos Rojos</th>
+            <th>Dolor de Cabeza</th>
+            <th>Lagrimeo</th>
+            <th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tabla 3 -->
+      <div class="tabla-section">
+        <h3>Agudeza Visual Sin Corrección</h3>
+        <table>
+          <tr>
+            <th>Visión lejana OD</th>
+            <th>Visión lejana OI</th>
+            <th>Visión lejana AO</th>
+            <th>Visión cercana OD</th>
+            <th>Visión cercana OI</th>
+            <th>Visión cercana AO</th>
+            <th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tabla 4 -->
+      <div class="tabla-section">
+        <h3>Agudeza Visual con Lentes de Graduación Paciente</h3>
+        <table>
+          <tr>
+            <th>Visión lejana OD</th>
+            <th>Visión lejana OI</th>
+            <th>Visión lejana AO</th>
+            <th>Visión cercana OD</th>
+            <th>Visión cercana OI</th>
+            <th>Visión cercana AO</th>
+            <th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tabla 5 -->
+      <div class="tabla-section">
+        <h3>Graduación de Paciente</h3>
+        <table>
+          <tr>
+            <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
+            <th>ESF OI</th><th>CYL OI</th><th>EJE OI</th><th>ADO OI</th><th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tabla 6 -->
+      <div class="tabla-section">
+        <h3>Graduación Actual</h3>
+        <table>
+          <tr>
+            <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
+            <th>ESF OI</th><th>CYL OI</th><th>EJE OI</th><th>ADO OI</th><th>Fecha</th>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td>
+            <td></td><td></td><td></td><td></td><td></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="btn-editar">
+        <button id="editarHistorial">Editar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/public/js/JsHistorialClinico.js"></script>
+</body>
+</html>
