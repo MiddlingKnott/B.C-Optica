@@ -1,147 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Historial Clínico</title>
-  <link rel="stylesheet" href="/public/css/StyleHistorialClinico.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial Clínico</title>
+    <link rel="stylesheet" href="/public/css/StyleHistorialClinico.css">
 </head>
 <body>
-  <div class="sidebar">
-    <div class="logo">
-      <img src="/public/Imagenes/logo.jpeg" alt="Logo">
-    </div>
-    <button id="inicioBtn">Inicio</button>
-    <button id="clientesBtn">Clientes</button>
-    <button id="inventarioBtn">Inventario</button>
-  </div>
 
-  <div class="main">
-    <header>
-      <h1>Historial Clínico</h1>
-      <div class="datetime">
-        <div id="date"></div>
-        <div id="time"></div>
-      </div>
-    </header>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="/public/Imagenes/logo.jpeg" alt="Logo" class="logo">
+        </div>
 
-    <div class="content">
-      <div class="search-box">
-        <input type="text" placeholder="Buscar paciente...">
-        <button class="search-btn">Buscar</button>
-      </div>
+        <nav class="nav-list">
+            <button class="nav-item" type="button"><span class="nav-icon"></span> <span class="nav-label">Clientes</span></button>
+            <button class="nav-item active" type="button"><span class="nav-icon"></span> <span class="nav-label">Historial Clínico</span></button>
+            <button class="nav-item" type="button"><span class="nav-icon"></span> <span class="nav-label">Inventario</span></button>
+        </nav>
+    </aside>
 
-      <div class="paciente-info">
-        <h2>Nombre del Paciente: <span id="nombrePaciente">Juan Pérez</span></h2>
-      </div>
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HEADER -->
+        <header>
+            <div class="header-left">
+                <h1>Historial Clínico</h1>
+            </div>
+            <div class="clock-container">
+                <span id="date"></span><br>
+                <span id="time"></span>
+            </div>
+        </header>
 
-      <!-- Tabla 1 -->
-      <div class="tabla-section">
-        <h3>Antecedentes Patológicos</h3>
-        <table>
-          <tr>
-            <th>Personales</th>
-            <th>No Personales</th>
-            <th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- SEARCH BAR -->
+        <section class="search-container">
+            <input id="searchInput" type="text" placeholder="Búsqueda de cliente">
+            <button id="btnSearch" class="btn-search">🔍</button>
+            <button id="btnAdd" class="btn-add">Agregar Historial Clínico</button>
+        </section>
 
-      <!-- Tabla 2 -->
-      <div class="tabla-section">
-        <h3>Síntomas</h3>
-        <table>
-          <tr>
-            <th>Visión Borrosa</th>
-            <th>Operaciones Oculares</th>
-            <th>Ojos Rojos</th>
-            <th>Dolor de Cabeza</th>
-            <th>Lagrimeo</th>
-            <th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- NOMBRE DEL CLIENTE -->
+        <section class="patient-info">
+            <h2>Nombre del cliente</h2>
+        </section>
 
-      <!-- Tabla 3 -->
-      <div class="tabla-section">
-        <h3>Agudeza Visual Sin Corrección</h3>
-        <table>
-          <tr>
-            <th>Visión lejana OD</th>
-            <th>Visión lejana OI</th>
-            <th>Visión lejana AO</th>
-            <th>Visión cercana OD</th>
-            <th>Visión cercana OI</th>
-            <th>Visión cercana AO</th>
-            <th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- TABLA 1: Antecedentes -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Antecedentes Patológicos</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>Personales</th>
+                    <th>No Personales</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </section>
 
-      <!-- Tabla 4 -->
-      <div class="tabla-section">
-        <h3>Agudeza Visual con Lentes de Graduación Paciente</h3>
-        <table>
-          <tr>
-            <th>Visión lejana OD</th>
-            <th>Visión lejana OI</th>
-            <th>Visión lejana AO</th>
-            <th>Visión cercana OD</th>
-            <th>Visión cercana OI</th>
-            <th>Visión cercana AO</th>
-            <th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- TABLA 2: Síntomas -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Síntomas</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>Visión Borrosa</th>
+                    <th>Operaciones Oculares</th>
+                    <th>Ojos Rojos</th>
+                    <th>Dolor de cabeza</th>
+                    <th>Lagrimeo</th>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </section>
 
-      <!-- Tabla 5 -->
-      <div class="tabla-section">
-        <h3>Graduación de Paciente</h3>
-        <table>
-          <tr>
-            <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
-            <th>ESF OI</th><th>CYL OI</th><th>EJE OI</th><th>ADO OI</th><th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- TABLA 3: Agudeza Visual Sin Corrección -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Agudeza Visual Sin Corrección</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>Visión lejana OD</th>
+                    <th>Visión lejana OI</th>
+                    <th>Visión lejana AO</th>
+                    <th>Visión cercana OD</th>
+                    <th>Visión cercana OI</th>
+                    <th>Visión cercana AO</th>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </section>
 
-      <!-- Tabla 6 -->
-      <div class="tabla-section">
-        <h3>Graduación Actual</h3>
-        <table>
-          <tr>
-            <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
-            <th>ESF OI</th><th>CYL OI</th><th>EJE OI</th><th>ADO OI</th><th>Fecha</th>
-          </tr>
-          <tr>
-            <td></td><td></td><td></td><td></td>
-            <td></td><td></td><td></td><td></td><td></td>
-          </tr>
-        </table>
-      </div>
+        <!-- TABLA 4: Agudeza Visión con Lentes -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Agudeza Visión con Lentes de Graduación Paciente</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>Visión lejana OD</th>
+                    <th>Visión lejana OI</th>
+                    <th>Visión lejana AO</th>
+                    <th>Visión cercana OD</th>
+                    <th>Visión cercana OI</th>
+                    <th>Visión cercana AO</th>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </section>
 
-      <div class="btn-editar">
-        <button id="editarHistorial">Editar</button>
-      </div>
-    </div>
-  </div>
+        <!-- TABLA 5: Graduación del Paciente -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Graduación de Paciente</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
+                    <th>ESF OI</th><th>CTL OI</th><th>EJE OI</th><th>ADO OI</th>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </section>
 
-  <script src="/public/js/JsHistorialClinico.js"></script>
+        <!-- TABLA 6: Graduación Actual -->
+        <section class="table-section">
+            <div class="section-title">
+                <h3>Graduación Actual</h3>
+                <button class="btn-edit">Editar</button>
+            </div>
+            <table>
+                <tr>
+                    <th>ESF OD</th><th>CYL OD</th><th>EJE OD</th><th>ADO OD</th>
+                    <th>ESF OI</th><th>CTL OI</th><th>EJE OI</th><th>ADO OI</th>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </section>
+
+    </main>
+
+<script src="/public/js/JsHistorialClinico.js"></script>
 </body>
 </html>
