@@ -3,6 +3,8 @@ body {
   background-color: #e9ecee; /* ligero gris de fondo */
   margin: 0;
   color: #333;
+  display: flex;
+  height: 100vh;
 }
 
 /* Asegurar que todos los controles y textos usen Poppins */
@@ -27,165 +29,173 @@ header h1, .section-title h3, .patient-info h2 {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 260px;
-  background: #44e6d8; /* mint */
-  padding: 28px 18px;
+  width: 20%;
+  background: #40E0D0; /* turquesa */
+  padding: 20px;
   box-sizing: border-box;
-  border-right: 1px solid rgba(0,0,0,0.04);
-}
-
-.logo-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 8px 0 22px 0;
+  gap: 10px;
 }
 
 .logo {
-  width: 120px;
-  height: auto;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 100%;
+  height: 120px;
+  background-color: #36c7ba;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.logo img {
+  width: 90px;
+  height: 90px;
+  border-radius: 60%;
+  object-fit: cover;
+  border: 2px solid white;
+}
 
-.nav-list {
+.sidebar button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: white;
+  color: #000;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s;
+}
+
+.sidebar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.main {
+  width: 80%;
+  margin-left: 20%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.nav-item {
-  display: block;
-  text-align: center;
-  padding: 14px 10px;
-  background: #ffffff;
-  color: #083333;
-  font-weight: 700;
-  border-radius: 10px;
-  box-shadow: 0 3px 0 rgba(0,0,0,0.03);
-  border: none; /* reset default button border */
-  cursor: pointer;
-  font-family: inherit;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-}
-
-.nav-item.active { background: #ffffff; }
-
-.nav-icon { font-size: 28px; }
-
-
-main {
-  margin-left: 280px; /* ancho sidebar + gap */
-  padding: 18px 36px 60px 36px;
+  gap: 18px;
+  padding: 18px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #40dfcf; /* barra superior mint */
-  padding: 18px 22px;
-  border-radius: 10px;
+  background-color: #40E0D0; /* barra superior turquesa */
+  padding: 16px 20px;
+  border-radius: 12px;
   margin: 10px 0 22px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 header h1 {
   margin: 0;
   font-size: 22px;
   font-weight: 800;
-  color: #052525;
+  color: #000;
 }
 
-/* Reloj */
-.clock-container {
+.datetime {
   text-align: right;
-  font-size: 13px;
-  font-weight: 700;
-  color: #071212;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
 }
-
 
 /* Buscador */
 .search-container {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin: 8px 0 18px 0;
+  gap: 12px;
+  margin: 12px 0;
 }
 
 .search-container input {
-  width: 52%;
-  padding: 16px 18px;
-  border-radius: 12px;
-  border: 1px solid #e6e6e6;
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
   background: #f5f5f5;
-  font-size: 18px;
-  outline: none;
 }
 
 .btn-search {
-  font-size: 20px;
+  font-size: 18px;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #00a7e6;
+  color: #40E0D0;
 }
 
 .btn-add {
-  background-color: #40e0d0;
+  background-color: #40E0D0;
   border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
-.btn-add:hover { background-color: #34d6c6; }
-
-.btn-add.large {
-  width: 320px;
-  max-width: 80%;
-  padding: 14px 18px;
-  border-radius: 12px;
+.btn-add:hover {
+  background-color: #36d6c6;
 }
 
-/* Tablas */
-.tabla-container {
+/* Secciones de tablas */
+.content {
+  display: flex;
+  gap: 18px;
+  flex: 1;
+}
+
+.right-content {
   width: 100%;
-  margin: 0 auto 40px;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
 }
 
-.tabla-container-header {
+.table-section {
+  width: 100%;
+  margin: 12px 0;
+}
+
+.section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 }
 
-.tabla-container h2 {
-  color: #40E0D0;
-  margin-bottom: 15px;
-  font-size: 20px;
+.section-title h3 {
+  margin: 0;
+  font-weight: 600;
+  color: #555;
+  font-size: 16px;
 }
 
 .btn-edit {
-  background-color: rgb(255, 228, 228);
+  background-color: #f4c7c7;
   border: none;
-  padding: 6px 14px;
-  border-radius: 15px;
+  padding: 6px 12px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .btn-edit:hover {
-  background-color: rgb(255, 209, 209);
+  background-color: #e6a3a3;
 }
 
 table {
@@ -195,74 +205,43 @@ table {
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  text-align: center;
+  margin-top: 8px;
 }
 
 th, td {
   border: 1px solid #ccc;
   padding: 8px;
+  text-align: center;
 }
 
 th {
   background-color: #e6f0ff;
-}
-/* Secciones de tablas */
-.table-section {
-    width: 100%;
-    margin: 18px 0;
+  font-weight: bold;
+  font-size: 14px;
 }
 
-/* Tarjeta central con formulario */
-.card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 28px 36px;
-  margin: 6px 0 60px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  max-width: 980px;
-}
-
-.client-form {
+table input {
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  border: none;
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
+  background-color: transparent;
+  font-family: inherit;
 }
 
-.form-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-.form-row label { font-weight: 700; color: #111; }
-.form-row input[type="text"],
-.form-row input[type="date"],
-.form-row input[type="number"] {
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid #d6d6d6;
-  font-size: 15px;
+table input:focus {
+  outline: 2px solid #40E0D0;
+  background-color: #f0fffe;
 }
 
-.form-row.actions { display: flex; justify-content: center; }
-
-/* pequeña separación inferior para el layout */
-main { padding-bottom: 80px; }
-
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.patient-info {
+  margin: 12px 0;
 }
 
-.section-title h3 {
-    font-weight: 600;
-    color: #555;
-}
-
-.btn-edit {
-    background-color: #f4c7c7;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.btn-edit:hover {
-    background-color: #e6a3a3;
+.patient-info h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 8px 0;
 }
