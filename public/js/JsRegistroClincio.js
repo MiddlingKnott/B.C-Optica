@@ -1,21 +1,27 @@
-// Reloj / Fecha (formato unificado)
-function updateClock() {
-  const now = new Date();
-  const date = now.toLocaleDateString('es-MX');
-  const time = now.toLocaleTimeString('es-MX', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
+// Espera a que el contenido del DOM esté cargado
+document.addEventListener("DOMContentLoaded", function() {
 
-  const fechaEl = document.getElementById('fecha');
-  const horaEl = document.getElementById('hora');
+    // Obtener los elementos del modal
+    var modal = document.getElementById("clinicalModal");
+    var btn = document.getElementById("openModalBtn");
+    var span = document.getElementsByClassName("close-button")[0];
 
-  if (fechaEl) fechaEl.textContent = date;
-  if (horaEl) horaEl.textContent = time;
-}
+    // Cuando el usuario hace clic en el botón, abre el modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
 
-setInterval(updateClock, 1000);
-updateClock();
+    // Cuando el usuario hace clic en <span> (x), cierra el modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
 
-
+    // Opcional: Manejar el envío del formulario
+    var form = document.getElementById("clinicalForm");
+    form.onsubmit = function(event) {
+        event.preventDefault(); // Evita que la página se recargue
+        alert("Historial clínico agregado (simulación).");
+        // Aquí iría tu lógica para enviar los datos a un servidor
+        modal.style.display = "none"; // Cierra el modal al enviar
+    }
+});

@@ -135,7 +135,7 @@ header h1 {
 }
 
 .btn-add {
-  background-color: #40E0D0;
+  background-color: #40e0d0;
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
@@ -216,8 +216,21 @@ th, td {
 
 th {
   background-color: #e6f0ff;
-  font-weight: bold;
-  font-size: 14px;
+}
+/* Secciones de tablas */
+.table-section {
+    width: 100%;
+    margin: 18px 0;
+}
+
+/* Tarjeta central con formulario */
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 28px 36px;
+  margin: 6px 0 60px 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  max-width: 980px;
 }
 
 table input {
@@ -239,9 +252,32 @@ table input:focus {
   margin: 12px 0;
 }
 
-.patient-info h2 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  margin: 8px 0;
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title h3 {
+    font-weight: 600;
+    color: #555;
+}
+
+.btn-edit {
+    background-color: #f4c7c7;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: #e6a3a3;
+}
+
+.content-area {
+    background-color: #ffffff; 
+    border-radius: 10px;       
+    padding: 24px;            
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06); 
 }

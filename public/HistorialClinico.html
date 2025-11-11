@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Historial Clínico</title>
   <link rel="stylesheet" href="/public/css/StyleHistorialClinico.css">
 </head>
+
 <body>
   <div class="sidebar">
     <div class="logo">
@@ -17,29 +19,37 @@
     <button onclick="window.location.href='Inventario.html'">Inventario</button>
   </div>
 
-  <div class="main">
-    <header>
-      <h1>Historial Clínico</h1>
-      <div class="datetime">
-        <div id="date"></div>
-        <div id="time"></div>
-      </div>
-    </header>
+        <nav class="nav-list">
+            <button class="nav-item" type="button"><span class="nav-icon"></span> <span class="nav-label">Clientes</span></button>
+            <button class="nav-item active" type="button"><span class="nav-icon"></span> <span class="nav-label">Historial Clínico</span></button>
+            <button class="nav-item" type="button"><span class="nav-icon"></span> <span class="nav-label">Inventario</span></button>
+        </nav>
+    </aside>
 
-    <div class="content">
-      <div class="right-content">
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HEADER -->
+        <header>
+            <div class="header-left">
+                <h1>Historial Clínico</h1>
+            </div>
+            <div class="clock-container">
+                <span id="date"></span><br>
+                <span id="time"></span>
+            </div>
+        </header>
 
         <!-- SEARCH BAR -->
         <section class="search-container">
             <input id="searchInput" type="text" placeholder="Búsqueda de cliente">
             <button id="btnSearch" class="btn-search">🔍</button>
-            <button id="btnAdd" class="btn-add" onclick="window.location.href='AddHistorialClinico.html'">Agregar Historial Clínico</button>
+            <button id="btnAdd" class="btn-add">Agregar Historial Clínico</button>
         </section>
 
-        <!-- NOMBRE DEL CLIENTE -->
-        <section class="patient-info">
-            <h2>Nombre del cliente</h2>
-        </section>
+            <!-- NOMBRE DEL CLIENTE -->
+            <section class="patient-info">
+                <h2>Nombre del cliente</h2>
+            </section>
 
         <!-- TABLA 1: Antecedentes -->
         <section class="table-section">
@@ -53,8 +63,8 @@
                     <th>No Personales</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </table>
         </section>
@@ -74,11 +84,12 @@
                     <th>Lagrimeo</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+                    <td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
         </section>
 
+        <!-- TABLA 3: Agudeza Visual Sin Corrección -->
         <section class="table-section">
             <div class="section-title">
                 <h3>Agudeza Visual Sin Corrección</h3>
@@ -94,7 +105,7 @@
                     <th>Visión cercana AO</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
         </section>
@@ -115,7 +126,7 @@
                     <th>Visión cercana AO</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
         </section>
@@ -132,7 +143,7 @@
                     <th>ESF OI</th><th>CTL OI</th><th>EJE OI</th><th>ADO OI</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
         </section>
@@ -149,43 +160,14 @@
                     <th>ESF OI</th><th>CTL OI</th><th>EJE OI</th><th>ADO OI</th>
                 </tr>
                 <tr>
-                    <td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td>
-                </tr>
-            </table>
-        </section>
-        <section class="table-section">
-            <div class="section-title">
-                <h3>Tratamiento</h3>
-                <button class="btn-edit">Editar</button>
-            </div>
-            <table>
-                <tr>
-                    <th>Tratamiento</th>
-                </tr>
-                <tr>
-                    <td><input type="text"></td>
-                </tr>
-            </table>
-        </section>
-        <section class="table-section">
-            <div class="section-title">
-            <h3>Tipo de graduacion</h3>
-            <button class="btn-edit">Editar</button>
-            </div>
-            <table>
-                <tr>
-                <th>Graduación</th>
-                </tr>
-                <tr>
-                    <td><input type="text"></td>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                 </tr>
             </table>
         </section>
 
-      </div> <!-- /.right-content -->
-    </div> <!-- /.content -->
-  </div> 
+    </main>
 
-  <script src="/public/js/JsHistorialClinico.js"></script>
+<script src="/public/js/JsHistorialClinico.js"></script>
 </body>
+
 </html>

@@ -1,166 +1,228 @@
-* { box-sizing: border-box; }
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex;
-  height: 100vh;
-  background-color: #D9D9D9;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
 }
 
-/* Sidebar */
-.sidebar {
-  width: 20%;
-  background-color: #40E0D0;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  gap: 10px;
-  height: 100%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+/* --- Estilos del Modal --- */
+
+/* El fondo oscuro del modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; 
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permite scroll si el contenido es muy largo */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
 }
 
-/* Espacio/logo igual a otras interfaces */
-.sidebar .logo {
-  width: 100%;
-  height: 120px;
-  background-color: #36c7ba;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sidebar .logo img {
-  width: 90px;
-  height: 90px;
-  border-radius: 60%;
-  object-fit: cover;
-  border: 2px solid white;
+/* Contenedor del contenido del modal */
+.modal-content {
+    background-color: #ffffff;
+    margin: 3% auto; /* 3% desde arriba y centrado */
+    padding: 25px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px; /* Ancho máximo */
+    max-height: 90vh; /* Altura máxima para que no ocupe toda la pantalla */
+    overflow-y: auto; /* Scroll *dentro* del modal si es necesario */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.sidebar button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background-color: white;
-  color: #333;
-  border-radius: 10px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: transform .12s ease, box-shadow .12s;
-}
-.sidebar button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+/* Botón para cerrar (la 'x') */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-/* Main area */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 18px;
-  margin-right: 10px;
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-/* Header */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #40E0D0;
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  height: 70px;
-}
-header h1 {
-  margin: 0;
-  color: #000;
-  font-size: 20px;
-}
-.datetime {
-  text-align: right;
-  color: #000;
-  font-size: 14px;
+/* --- Estilos del Formulario --- */
+
+h2 {
+    text-align: center;
+    margin-top: 0;
 }
 
-/* Content */
-.content {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 20px 0;
 }
 
-.search-box {
-  display: flex;
-  align-items: center;
-}
-.search-box input {
-  padding: 8px;
-  border: none;
-  background-color: #d9d9d9;
-  border-radius: 8px 0 0 8px;
-  width: 260px;
-  outline: none;
-}
-.search-box .search-btn {
-  padding: 8px 12px;
-  border: none;
-  background-color: #40E0D0;
-  color: #fff;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: none;
+    width: 100%;
 }
 
-.registro-box h2 {
-  margin-top: 25px;
-  color: #333;
-  text-align: left;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
-}
-th, td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #e6e6e6;
-}
-th {
-  background-color: #f2f2f2;
-  color: #333;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.edit-container {
-  text-align: center;
-  margin-top: 25px;
+.form-group label,
+.form-group-inline > label:first-child,
+.symptom-group > label:first-child {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
 }
-.edit-btn {
-  background-color: #cc0000;
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.edit-btn:hover { background-color: #990000; }
 
-@media (max-width: 900px) {
-  .sidebar { display: none; }
-  .main { margin: 0; padding: 10px; }
+/* Estilo de campos de texto y textarea para que se vean grises */
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #ebebeb; /* Color gris de las imágenes */
+    border-radius: 4px;
+    box-sizing: border-box; /* Importante para que el padding no afecte el ancho */
+    font-size: 1em;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+/* --- Estilos de Layout Específicos --- */
+
+/* Para layouts de dos columnas (ej. Agudeza Visual) */
+.dual-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.dual-column .column {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Para items en línea (ej. OD 20 / [__]) */
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.form-group-inline label {
+    font-weight: normal !important;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.form-group-inline .small-input {
+    width: 80px; /* Ancho fijo para los campos pequeños */
+}
+
+/* Para la grilla de graduación */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 60px repeat(4, 1fr); /* 1 columna para label, 4 para datos */
+    gap: 8px;
+    align-items: center;
+}
+
+.grid-cell {
+    text-align: center;
+}
+
+.grid-cell.grid-header {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.grid-cell.grid-label {
+    font-weight: bold;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.grid-cell input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Para grupos de checkboxes */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.symptom-group label {
+    font-weight: normal !important;
+    margin-bottom: 0;
+}
+
+/* --- Estilo del Botón --- */
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #fce4e4; /* Fondo rosa pálido */
+    border: 2px solid #a0a0a0; /* Borde gris/oscuro */
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.submit-btn:hover {
+    background-color: #fdd2d2;
+}
+
+/* Botón para abrir el modal (estilo simple) */
+#openModalBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.dual-column .form-group-inline {
+    gap: 2px; 
+}
+
+.dual-column .form-group-inline label {
+    width: 65px;
+}
+
+.symptom-group > label:first-child {
+    width: 160px; /* Ajusta este valor si es necesario */
+    flex-shrink: 0; /* Evita que la etiqueta se encoja */
+}
+
+.symptom-group > label:nth-child(2) {
+    width: 80px; /* Ajusta este valor si es necesario */
+    flex-shrink: 0;
 }

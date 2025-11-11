@@ -182,4 +182,24 @@
     }
   }
   
-  
+  /* Search box */
+.search-box {
+  display: flex;
+  align-items: center;
+}
+.search-box input {
+  padding: 8px;
+  border: none;
+  background-color: #d9d9d9;
+  border-radius: 8px 0 0 8px;
+  width: 260px;
+  outline: none;
+}
+.search-box .search-btn {
+  padding: 8px 12px;
+  border: none;
+  background-color: #40E0D0;
+  color: #fff;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
