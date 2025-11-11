@@ -136,7 +136,7 @@ header h1 {
 }
 
 .btn-add {
-  background-color: #40e0d0;
+  background-color: #005A9C;
   border: none;
   padding: 12px 20px;
   border-radius: 10px;
@@ -204,7 +204,7 @@ th, td {
 }
 
 th {
-  background-color: #e6f0ff;
+  background-color: #F1F3F5;
 }
 /* Secciones de tablas */
 .table-section {
@@ -256,7 +256,7 @@ main { padding-bottom: 80px; }
 }
 
 .btn-edit {
-    background-color: #f4c7c7;
+    background-color: #FDEBCF;
     border: none;
     padding: 5px 12px;
     border-radius: 10px;
@@ -264,5 +264,12 @@ main { padding-bottom: 80px; }
 }
 
 .btn-edit:hover {
-    background-color: #e6a3a3;
+    background-color: #E5E7EB;
+}
+
+.content-area {
+    background-color: #ffffff; 
+    border-radius: 10px;       
+    padding: 24px;            
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06); 
 }

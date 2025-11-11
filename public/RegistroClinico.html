@@ -1,142 +1,233 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Registro Clínico</title>
-  <link rel="stylesheet" href="/public/css/StyleRegistroClinico.css" />
-  <script defer src="/public/js/JsRegistroClincio.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Historial Clínico</title>
+  <link rel="stylesheet" href="/public/css/StyleRegistroClinico.css">
 </head>
+
 <body>
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="logo">
-      <img src="/public/Imagenes/logo.jpeg" alt="Logo Óptica" />
-    </div>
-    <button onclick="window.location.href='Inicio.html'">Inicio</button>
-    <button onclick="window.location.href='Clientes.html'">Clientes</button>
-    <button onclick="window.location.href='HistorialClinico.html'">Historial Clinicio</button>
-    <button onclick="window.location.href='Inventario.html'">Inventario</button>
 
+  <button id="openModalBtn">Abrir Historial Clínico</button>
+
+  <div id="clinicalModal" class="modal">
+
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Agregar Historial Clínico</h2>
+
+      <form id="clinicalForm">
+
+        <fieldset>
+          <legend>Antecedentes Patológicos</legend>
+          <div class="form-group">
+            <label for="antecedentes_personales">Personales</label>
+            <textarea id="antecedentes_personales" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="antecedentes_no_personales">No Personales</label>
+            <textarea id="antecedentes_no_personales" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Síntomas</legend>
+          <div class="form-group-inline symptom-group">
+            <label>Visión Borrosa:</label>
+            <label><input type="checkbox" name="vision_borrosa" value="lejos"> Lejos</label>
+            <label><input type="checkbox" name="vision_borrosa" value="cerca"> Cerca</label>
+            <label><input type="checkbox" name="vision_borrosa" value="ambos"> Ambos</label>
+          </div>
+          <div class="form-group-inline symptom-group">
+            <label>Operaciones Oculares:</label>
+            <label><input type="checkbox" name="operaciones" value="si"> Si</label>
+            <label><input type="checkbox" name="operaciones" value="no"> No</label>
+          </div>
+          <div class="form-group-inline symptom-group">
+            <label>Ojos Rojos:</label>
+            <label><input type="checkbox" name="ojos_rojos" value="si"> Si</label>
+            <label><input type="checkbox" name="ojos_rojos" value="no"> No</label>
+          </div>
+          <div class="form-group-inline symptom-group">
+            <label>Dolor de cabeza:</label>
+            <label><input type="checkbox" name="dolor_cabeza" value="si"> Si</label>
+            <label><input type="checkbox" name="dolor_cabeza" value="no"> No</label>
+          </div>
+          <div class="form-group-inline symptom-group">
+            <label>Lagrimeo:</label>
+            <label><input type="checkbox" name="lagrimeo" value="si"> Si</label>
+            <label><input type="checkbox" name="lagrimeo" value="no"> No</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Agudeza Visual Sin Corrección</legend><br>
+          <div class="dual-column">
+            <div class="column">
+              <strong>Visión lejana</strong><br><br>
+              <div class="form-group-inline">
+                <label for="av_lejana_od_sin">OD 20 /</label>
+                <input type="text" id="av_lejana_od_sin" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_lejana_oi_sin">OI 20 /</label>
+                <input type="text" id="av_lejana_oi_sin" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_lejana_ao_sin">AO 20 /</label>
+                <input type="text" id="av_lejana_ao_sin" class="small-input">
+              </div>
+            </div>
+            <div class="column">
+              <strong>Visión Cercana</strong><br><br>
+              <div class="form-group-inline">
+                <label for="av_cercana_od_sin">OD 20 /</label>
+                <input type="text" id="av_cercana_od_sin" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_cercana_oi_sin">OI 20 /</label>
+                <input type="text" id="av_cercana_oi_sin" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_cercana_ao_sin">AO 20 /</label>
+                <input type="text" id="av_cercana_ao_sin" class="small-input">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Agudeza Visual con Lentes de Graduación Paciente</legend><br>
+          <div class="dual-column">
+            <div class="column">
+              <strong>Visión lejana</strong><br><br>
+              <div class="form-group-inline">
+                <label for="av_lejana_od_con">OD 20 /</label>
+                <input type="text" id="av_lejana_od_con" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_lejana_oi_con">OI 20 /</label>
+                <input type="text" id="av_lejana_oi_con" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_lejana_ao_con">AO 20 /</label>
+                <input type="text" id="av_lejana_ao_con" class="small-input">
+              </div>
+            </div>
+            <div class="column">
+              <strong>Visión Cercana</strong><br><br>
+              <div class="form-group-inline">
+                <label for="av_cercana_od_con">OD 20 /</label>
+                <input type="text" id="av_cercana_od_con" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_cercana_oi_con">OI 20 /</label>
+                <input type="text" id="av_cercana_oi_con" class="small-input">
+              </div>
+              <div class="form-group-inline">
+                <label for="av_cercana_ao_con">AO 20 /</label>
+                <input type="text" id="av_cercana_ao_con" class="small-input">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Graduación de Paciente</legend>
+          <div class="grid-layout">
+            <div class="grid-cell grid-header"></div>
+            <div class="grid-cell grid-header">ESF</div>
+            <div class="grid-cell grid-header">CYL</div>
+            <div class="grid-cell grid-header">EJE</div>
+            <div class="grid-cell grid-header">ADD</div>
+            <div class="grid-cell grid-label">OD</div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell grid-label">OI</div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Graduación Actual</legend>
+          <div class="grid-layout">
+            <div class="grid-cell grid-header"></div>
+            <div class="grid-cell grid-header">ESF</div>
+            <div class="grid-cell grid-header">CYL</div>
+            <div class="grid-cell grid-header">EJE</div>
+            <div class="grid-cell grid-header">ADD</div>
+            <div class="grid-cell grid-label">OD</div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell grid-label">OI</div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+            <div class="grid-cell"><input type="text"></div>
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <label for="dip">DIP:</label>
+            <input type="text" id="dip">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="dual-column">
+            <div class="column checkbox-group">
+              <label><input type="checkbox" name="lente" value="monofocal"> Monofocal</label>
+              <label><input type="checkbox" name="lente" value="bifocal"> Bifocal</label>
+              <label><input type="checkbox" name="lente" value="l28"> L28</label>
+              <label><input type="checkbox" name="lente" value="inv"> INV</label>
+              <label><input type="checkbox" name="lente" value="progresivo"> Progresivo</label>
+            </div>
+            <div class="column checkbox-group">
+              <strong>Tratamiento</strong>
+              <label><input type="checkbox" name="tratamiento" value="ar"> AR</label>
+              <label><input type="checkbox" name="tratamiento" value="foto_ar"> FOTO AR</label>
+              <label><input type="checkbox" name="tratamiento" value="foto_blue"> FOTO BLUE</label>
+              <label><input type="checkbox" name="tratamiento" value="policarbonato"> POLICARBONATO</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Venta</legend>
+          <div class="form-group">
+            <label for="modelo_comprado">Modelo comprado</label>
+            <input type="text" id="modelo_comprado">
+          </div>
+          <div class="form-group">
+            <label for="tipo_material">Tipo de material</label>
+            <input type="text" id="tipo_material">
+          </div>
+          <div class="form-group">
+            <label for="cantidad_pagada">Cantidad pagada</label>
+            <input type="text" id="cantidad_pagada">
+          </div>
+          <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea id="observaciones" rows="3"></textarea>
+          </div>
+        </fieldset>
+
+        <div class="button-container">
+          <button type="submit" class="submit-btn">Agregar Historial Clínico</button>
+        </div>
+
+      </form>
+    </div>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
-    <!-- HEADER -->
-    <header>
-      <h1>Registro clinico</h1>
-      <div class="datetime">
-        <div id="fecha"></div>
-        <div id="hora"></div>
-      </div>
-    </header>
-
-    <!-- CONTENIDO -->
-    <div class="content">
-
-      <!-- Antecedentes -->
-      <section class="antecedentes">
-        <h2>Antecedentes Patológicos</h2>
-        <label for="personales">Personales</label>
-        <input type="text" id="personales" name="personales" />
-
-        <label for="no_personales">No Personales</label>
-        <input type="text" id="no_personales" name="no_personales" />
-      </section>
-
-      <!-- Síntomas -->
-      <section class="sintomas">
-        <h2>Síntomas</h2>
-
-        <label>Visión Borrosa</label>
-        <div class="inline">
-          <label><input type="checkbox"> Lejos</label>
-          <label><input type="checkbox"> Cerca</label>
-          <label><input type="checkbox"> Ambos</label>
-        </div>
-
-        <label>Operaciones Oculares</label>
-        <div class="inline">
-          <label><input type="checkbox"> Sí</label>
-          <label><input type="checkbox"> No</label>
-        </div>
-
-        <label>Ojos Rojos</label>
-        <input type="text" />
-
-        <label>Dolor de cabeza</label>
-        <input type="text" />
-
-        <label>Lagrimeo</label>
-        <input type="text" />
-      </section>
-
-      <!-- Examen Visual -->
-      <section class="examen_visual">
-        <h2>Examen Visual</h2>
-
-        <div class="visual_acuity">
-          <h3>Agudeza con Lentes de Graduación Paciente</h3>
-          <div class="acuity-grid">
-            <div class="row head">
-              <div></div><div>ESF</div><div>CYL</div><div>EJE</div><div>ADd</div>
-            </div>
-            <div class="row">
-              <div>OD</div>
-              <input type="text"><input type="text"><input type="text"><input type="text">
-            </div>
-            <div class="row">
-              <div>OI</div>
-              <input type="text"><input type="text"><input type="text"><input type="text">
-            </div>
-          </div>
-        </div>
-
-        <div class="lente-tipo-wrapper">
-          <label><input type="checkbox"> Monofocal</label>
-          <label><input type="checkbox"> Bifocal</label>
-          <label><input type="checkbox"> L2B</label>
-          <label><input type="checkbox"> INV</label>
-          <label><input type="checkbox"> Progresivo</label>
-        </div>
-
-        <h3>Tratamiento</h3>
-        <div class="tratamiento">
-          <label><input type="checkbox"> AR</label>
-          <label><input type="checkbox"> FOTO AR</label>
-          <label><input type="checkbox"> FOTO BLUE</label>
-          <label><input type="checkbox"> POLICARBONATO</label>
-        </div>
-      </section>
-
-      <!-- Graduación Actual -->
-      <section class="graduacion_actual">
-        <h2>Graduación Actual</h2>
-        <div class="acuity-grid">
-          <div class="row head">
-            <div></div><div>ESF</div><div>CTL</div><div>EJE</div><div>ADd</div>
-          </div>
-          <div class="row">
-            <div>OD</div>
-            <input type="text"><input type="text"><input type="text"><input type="text">
-          </div>
-          <div class="row">
-            <div>OI</div>
-            <input type="text"><input type="text"><input type="text"><input type="text">
-          </div>
-        </div>
-
-        <div class="dip">
-          <label>DIP:</label>
-          <input type="text" />
-        </div>
-
-        <h3>Observaciones</h3>
-        <textarea placeholder="Escribe aquí las observaciones..."></textarea>
-      </section>
-
-      <button class="btn-submit">Agregar Historial Clínico</button>
-    </div>
-  </div>
+  <script src="/public/js/JsRegistroClincio.js"></script>
 </body>
+
 </html>
