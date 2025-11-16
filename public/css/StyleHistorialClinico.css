@@ -1,84 +1,102 @@
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #e9ecee; /* ligero gris de fondo */
+  background-color: #e9ecee;
+  /* ligero gris de fondo */
   margin: 0;
   color: #333;
 }
 
 /* Asegurar que todos los controles y textos usen Poppins */
-button, input, select, textarea, table, th, td {
+button,
+input,
+select,
+textarea,
+table,
+th,
+td {
   font-family: 'Poppins', sans-serif;
 }
 
 /* pesos y tamaños coherentes con la pantalla 'Agregar Cliente' */
-header h1, .section-title h3, .patient-info h2 {
+header h1,
+.section-title h3,
+.patient-info h2 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
 }
 
-.nav-item, .btn-add, .btn-edit {
+.btn-add,
+.btn-edit {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
 }
 
+/* Layout */
 /* Layout */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 260px;
-  background: #44e6d8; /* mint */
+  width: 300px;
+  display: flex;
+
+  flex-direction: column;
+  gap: 80px;
+  background: #44e6d8;
   padding: 28px 18px;
   box-sizing: border-box;
-  border-right: 1px solid rgba(0,0,0,0.04);
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.logo-container {
+.sidebar button {
+  width: 100%;
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  color: #000;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 8px 0 22px 0;
+  gap: 20px;
+  padding: 30px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.sidebar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar button .icon {
+  font-size: 24px;
+  line-height: 1;
 }
 
 .logo {
-  width: 120px;
-  height: auto;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-
-.nav-list {
+  width: 100%;
+  height: 120px;
+  background-color: #36c7ba; /* Fondo más oscuro */
+  border-radius: 10px;      /* Esquinas redondeadas */
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  justify-content: center;
+  align-items: center;
 }
 
-.nav-item {
-  display: block;
-  text-align: center;
-  padding: 14px 10px;
-  background: #ffffff;
-  color: #083333;
-  font-weight: 700;
-  border-radius: 10px;
-  box-shadow: 0 3px 0 rgba(0,0,0,0.03);
-  border: none; /* reset default button border */
-  cursor: pointer;
-  font-family: inherit;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
+.logo img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%; /* La hace circular */
+  object-fit: cover;
+  border: 2px solid white;
 }
-
-.nav-item.active { background: #ffffff; }
-
-.nav-icon { font-size: 28px; }
-
 
 main {
-  margin-left: 280px; /* ancho sidebar + gap */
+  margin-left: 300px;
+  /* ancho sidebar + gap */
   padding: 18px 36px 60px 36px;
 }
 
@@ -86,11 +104,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #40dfcf; /* barra superior mint */
+  background-color: #40dfcf;
+  /* barra superior mint */
   padding: 18px 22px;
   border-radius: 10px;
   margin: 10px 0 22px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 header h1 {
@@ -136,7 +155,7 @@ header h1 {
 }
 
 .btn-add {
-  background-color: #40e0d0;
+  background-color: #005A9C;
   border: none;
   padding: 12px 20px;
   border-radius: 10px;
@@ -147,7 +166,9 @@ header h1 {
   color: #fff;
 }
 
-.btn-add:hover { background-color: #34d6c6; }
+.btn-add:hover {
+  background-color: #34d6c6;
+}
 
 .btn-add.large {
   width: 320px;
@@ -194,23 +215,24 @@ table {
   background-color: white;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ccc;
   padding: 8px;
 }
 
 th {
-  background-color: #e6f0ff;
+  background-color: #F1F3F5;
 }
+
 /* Secciones de tablas */
 .table-section {
-    width: 100%;
-    margin: 18px 0;
-<<<<<<< HEAD
+  width: 100%;
+  margin: 18px 0;
 }
 
 /* Tarjeta central con formulario */
@@ -219,10 +241,8 @@ th {
   border-radius: 10px;
   padding: 28px 36px;
   margin: 6px 0 60px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   max-width: 980px;
-=======
->>>>>>> parent of 4a97369 (HistClin_AddHC_av2)
 }
 
 /* Tarjeta central con formulario */
@@ -231,7 +251,7 @@ th {
   border-radius: 10px;
   padding: 28px 36px;
   margin: 6px 0 60px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   max-width: 980px;
 }
 
@@ -241,8 +261,18 @@ th {
   margin: 0 auto;
 }
 
-.form-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-.form-row label { font-weight: 700; color: #111; }
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.form-row label {
+  font-weight: 700;
+  color: #111;
+}
+
 .form-row input[type="text"],
 .form-row input[type="date"],
 .form-row input[type="number"] {
@@ -252,61 +282,48 @@ th {
   font-size: 15px;
 }
 
-.form-row.actions { display: flex; justify-content: center; }
+.form-row.actions {
+  display: flex;
+  justify-content: center;
+}
 
 /* pequeña separación inferior para el layout */
-main { padding-bottom: 80px; }
+main {
+  padding-bottom: 80px;
+}
 
 .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-<<<<<<< HEAD
 .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-=======
-.section-title h3 {
-    font-weight: 600;
-    color: #555;
-}
-
-.btn-edit {
-    background-color: #f4c7c7;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.btn-edit:hover {
-    background-color: #e6a3a3;
->>>>>>> parent of 4a97369 (HistClin_AddHC_av2)
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .section-title h3 {
-    font-weight: 600;
-    color: #555;
+  font-weight: 600;
+  color: #555;
 }
 
 .btn-edit {
-    background-color: #f4c7c7;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 10px;
-    cursor: pointer;
+  background-color: #FDEBCF;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .btn-edit:hover {
-    background-color: #e6a3a3;
+  background-color: #E5E7EB;
 }
 
 .content-area {
-    background-color: #ffffff; 
-    border-radius: 10px;       
-    padding: 24px;            
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06); 
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }

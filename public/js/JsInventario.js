@@ -22,7 +22,8 @@ function updateClock() {
         <tr><td>Guess</td><td>5</td></tr>
         <tr><td>Vogue</td><td>2</td></tr>
       </table>
-      <button class="agregar">Agregar</button>
+      <button class="agregar-btn-inv">Agregar</button>
+      <button class="editar-btn-inv">Editar</button>
     `;
   }
   
