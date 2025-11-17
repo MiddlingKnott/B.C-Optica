@@ -1,22 +1,52 @@
-// 🕒 Reloj y fecha (formato unificado)
+// Reloj y fecha 
 function updateClock() {
-    const now = new Date();
-    const date = now.toLocaleDateString('es-MX');
-    const time = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    document.getElementById('fecha').textContent = date;
-    document.getElementById('hora').textContent = time;
+  const now = new Date();
+  const date = now.toLocaleDateString('es-MX');
+  const time = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('fecha').textContent = date;
+  document.getElementById('hora').textContent = time;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Manejo del formulario 
+document.getElementById('formCliente').addEventListener('submit', async (e) => {
+  e.preventDefault(); // Detiene el envío normal del formulario
+
+  // 1. Obtenemos los valores de los inputs
+  const nombre = document.getElementById('nombre').value;
+  const fecha_nac = document.getElementById('fecha_nac').value;
+  const edad = document.getElementById('edad').value;
+
+  // 2. Creamos el objeto de datos que enviaremos
+  const data = {
+    nombre: nombre,
+    fecha_nacimiento: fecha_nac, // El nombre debe coincidir con el del modelo
+    edad: edad
+  };
+
+  // 3. Usamos fetch() para enviar los datos al servidor
+  try {
+    const response = await fetch('/api/clientes/agregar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json' // Le decimos que estamos enviando JSON
+      },
+      body: JSON.stringify(data) // Convertimos nuestro objeto a texto JSON
+    });
+
+    const result = await response.json(); // Leemos la respuesta del servidor
+
+    if (result.success) {
+      alert('¡Cliente agregado exitosamente!');
+      e.target.reset(); // Limpiamos el formulario
+    } else {
+      // Mostramos el error que envió el servidor
+      alert('Error al agregar cliente: ' + result.message);
+    }
+
+  } catch (error) {
+    console.error('Error de red:', error);
+    alert('Error de conexión. No se pudo agregar el cliente.');
   }
-  setInterval(updateClock, 1000);
-  updateClock();
-  
-  // 📋 Manejo del formulario
-  document.getElementById('formCliente').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const fecha_nac = document.getElementById('fecha_nac').value;
-    const edad = document.getElementById('edad').value;
-  
-    alert(`Cliente agregado:\nNombre: ${nombre}\nFecha de nacimiento: ${fecha_nac}\nEdad: ${edad}`);
-    e.target.reset();
-  });
-  
+});
