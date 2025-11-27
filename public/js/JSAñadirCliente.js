@@ -9,6 +9,36 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// --- LÓGICA PARA CALCULAR EDAD VISUALMENTE ---
+const inputFecha = document.getElementById('fecha_nac');
+const inputEdad = document.getElementById('edad');
+
+inputFecha.addEventListener('change', function() {
+    const fechaSeleccionada = this.value;
+    
+    if (fechaSeleccionada) {
+        const edadCalculada = calcularEdad(fechaSeleccionada);
+        inputEdad.value = edadCalculada;
+    } else {
+        inputEdad.value = '';
+    }
+});
+
+// Función matemática para calcular edad exacta
+function calcularEdad(fechaString) {
+    const hoy = new Date();
+    const cumpleanos = new Date(fechaString);
+    
+    let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    const mes = hoy.getMonth() - cumpleanos.getMonth();
+
+    // Ajustamos si aún no es el mes o el día del cumpleaños
+    if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
+        edad--;
+    }
+    return edad;
+}
+
 // Manejo del formulario 
 document.getElementById('formCliente').addEventListener('submit', async (e) => {
   e.preventDefault(); // Detiene el envío normal del formulario
@@ -16,13 +46,11 @@ document.getElementById('formCliente').addEventListener('submit', async (e) => {
   // 1. Obtenemos los valores de los inputs
   const nombre = document.getElementById('nombre').value;
   const fecha_nac = document.getElementById('fecha_nac').value;
-  const edad = document.getElementById('edad').value;
 
   // 2. Creamos el objeto de datos que enviaremos
   const data = {
     nombre: nombre,
     fecha_nacimiento: fecha_nac, // El nombre debe coincidir con el del modelo
-    edad: edad
   };
 
   // 3. Usamos fetch() para enviar los datos al servidor
@@ -39,7 +67,10 @@ document.getElementById('formCliente').addEventListener('submit', async (e) => {
 
     if (result.success) {
       alert('¡Cliente agregado exitosamente!');
-      e.target.reset(); // Limpiamos el formulario
+
+      const cliente = result.cliente; 
+
+      window.location.href = `/RegistroClinico.html?id=${cliente.id_cliente}&nombre=${encodeURIComponent(cliente.nombre)}&edad=${cliente.edad}`;
     } else {
       // Mostramos el error que envió el servidor
       alert('Error al agregar cliente: ' + result.message);

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventario</title>
-  <link rel="stylesheet" href="/B.C-Optica/public/css/StyleInventario.css">
-  <script defer src="/B.C-Optica/public/js/JsInventario.js"></script>
+  <link rel="stylesheet" href="/css/StyleInventario.css">
+  <script defer src="/js/JsInventario.js"></script>
 </head>
+
 <body>
   <div class="sidebar">
     <div class="logo">
-      <a href="Inicio.html"><img src="/B.C-Optica/public/Imagenes/logo.jpeg" alt="Logo Óptica BC"></a>
+      <a href="Inicio.html"><img src="Imagenes/logo.jpeg" alt="Logo Óptica BC"></a>
     </div>
     <button onclick="window.location.href='Clientes.html'">
       <span class="icon">👤</span>
@@ -38,34 +40,42 @@
     <div class="content">
 
       <div class="search-box">
-          <input type="text" id="search" placeholder="Buscar cliente...">
-          <button class="search-btn">🔍</button>
+        <input type="text" id="search" placeholder="Buscar Producto...">
+        <button class="search-btn">🔍</button>
+        <button class="agregar-btn-inv" id="btn-agregarProd">Añadir Producto Nuevo</button>
       </div><br><br>
 
-      <section class="categoria">
-        <h3>Armazones de Línea</h3>
-        <button id="mostrar-linea">Mostrar</button>
-        <div id="tabla-linea" class="tabla"></div>
-      </section>
+      <div class="tabs-container">
+        <button class="tab-btn active" data-categoria="Armazon Linea">Armazones de Línea</button>
+        <button class="tab-btn" data-categoria="Armazon linea Bodega">Armazones de Línea Bodega</button>
+        <button class="tab-btn" data-categoria="Armazon promocion">Armazones de Promoción</button>
+        <button class="tab-btn" data-categoria="Armazon promocion bodega">Armazones de Promoción Bodega</button>
+        <button class="tab-btn" data-categoria="Articulos Auxiliares">Artículos Auxiliares de Óptica</button>
+      </div>
 
-      <section class="categoria">
-        <h3>Armazones de Línea Bodega</h3>
-        <button id="mostrar-bodega">Mostrar</button>
-        <div id="tabla-bodega" class="tabla"></div>
-      </section>
-
-      <section class="categoria">
-        <h3>Armazones Promoción</h3>
-        <button id="mostrar-promocion">Mostrar</button>
-        <div id="tabla-promocion" class="tabla"></div>
-      </section>
-
-      <section class="categoria">
-        <h3>Artículos Auxiliares de óptica</h3>
-        <button id="mostrar-auxiliares">Mostrar</button>
-        <div id="tabla-auxiliares" class="tabla"></div>
-      </section>
+      <div id="contenedor-principal-inventario"></div>
     </div>
   </div>
+
+  <div id="modal-editar" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Editar Producto</h3>
+
+      <input type="hidden" id="edit-id">
+
+      <label>Marca:</label>
+      <input type="text" id="edit-marca" class="Inputedit-marca" placeholder="Editar Marca">
+
+      <label>Stock (Piezas):</label>
+      <input type="number" id="edit-stock" class="Inputedit-stock" placeholder="Editar stock">
+
+      <div class="modal-buttons">
+        <button id="btn-guardar-cambios" class="btn-guardar">Guardar Cambios</button>
+        <button id="btn-cancelar-edicion" class="btn-cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
 </body>
+
 </html>

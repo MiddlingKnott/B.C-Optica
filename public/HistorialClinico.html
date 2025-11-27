@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial Clínico</title>
-    <link rel="stylesheet" href="/B.C-Optica/public/css/StyleHistorialClinico.css">
+    <link rel="stylesheet" href="/css/StyleHistorialClinico.css">
 </head>
 
 <body>
@@ -52,234 +52,265 @@
                 <button id="btnAdd" class="btn-add">Agregar Historial Clínico</button>
             </section>
 
-            <!-- NOMBRE DEL CLIENTE -->
-            <section class="patient-info">
-                <h2>Nombre del cliente</h2>
+            <section class="date-filter-container">
+                <label id="Filtrarporfecha">Filtrar por fecha:</label>
+
+                <input type="date" id="fechaInicio">
+                <span style="font-weight: bold;">a</span>
+                <input type="date" id="fechaFin">
+
+                <button id="btnFiltrarFecha">Ver Consultas</button>
             </section>
 
-            <!-- TABLA 1: Antecedentes -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Antecedentes Patológicos</h3>
-                    <button class="btn-edit">Editar</button>
+            <div id="listaResultados" class="resultados-busqueda"></div>
+
+            <section class="patient-info" id="seccionDatos">
+                <h2 id="nombreClienteDisplay">Nombre del cliente</h2>
+                <div id="cabo1">
+                    <strong>Consultas Disponibles:</strong><br>
+                    <div id="contenedorFechas"></div>
                 </div>
-                <table>
-                    <tr>
-                        <th>Personales</th>
-                        <th>No Personales</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
-
-            <!-- TABLA 2: Síntomas -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Síntomas</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Visión Borrosa</th>
-                        <th>Operaciones Oculares</th>
-                        <th>Ojos Rojos</th>
-                        <th>Dolor de cabeza</th>
-                        <th>Lagrimeo</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
-
-            <!-- TABLA 3: Agudeza Visual Sin Corrección -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Agudeza Visual Sin Corrección</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Visión lejana OD 20/</th>
-                        <th>Visión lejana OI 20/</th>
-                        <th>Visión lejana AO 20/</th>
-                        <th>Visión cercana OD 20/</th>
-                        <th>Visión cercana OI 20/</th>
-                        <th>Visión cercana AO 20/</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
-
-            <!-- TABLA 4: Agudeza Visión con Lentes -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Agudeza Visual con Lentes de Graduación Paciente</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Visión lejana OD 20/</th>
-                        <th>Visión lejana OI 20/</th>
-                        <th>Visión lejana AO 20/</th>
-                        <th>Visión cercana OD 20/</th>
-                        <th>Visión cercana OI 20/</th>
-                        <th>Visión cercana AO 20/</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
-
-            <!-- TABLA 5: Graduación del Paciente -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Graduación de Paciente</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>ESF OD</th>
-                        <th>CYL OD</th>
-                        <th>EJE OD</th>
-                        <th>ADD OD</th>
-                        <th>ESF OI</th>
-                        <th>CYL OI</th>
-                        <th>EJE OI</th>
-                        <th>ADD OI</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
-
-            <!-- TABLA 6: Graduación Actual -->
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Graduación Actual</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>ESF OD</th>
-                        <th>CYL OD</th>
-                        <th>EJE OD</th>
-                        <th>ADD OD</th>
-                        <th>ESF OI</th>
-                        <th>CYL OI</th>
-                        <th>EJE OI</th>
-                        <th>ADD OI</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
             </section>
 
 
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Lentes de Graduación</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Categoría</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
+            <div id="contenedorTablas">
+                <!-- TABLA 1: Antecedentes -->
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Antecedentes Patológicos</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Personales</th>
+                            <th>No Personales</th>
+                        </tr>
+                        <tr>
+                            <td id="td_ant_pers"></td>
+                            <td id="td_ant_no_pers"></td>
+                        </tr>
+                    </table>
+                </section>
 
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Tratamiento</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Tipo</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
+                <!-- TABLA 2: Síntomas -->
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Síntomas</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Visión Borrosa</th>
+                            <th>Operaciones Oculares</th>
+                            <th>Ojos Rojos</th>
+                            <th>Dolor de cabeza</th>
+                            <th>Lagrimeo</th>
+                        </tr>
+                        <tr>
+                            <td id="td_sin_vision"></td>
+                            <td id="td_sin_oper"></td>
+                            <td id="td_sin_rojos"></td>
+                            <td id="td_sin_cabeza"></td>
+                            <td id="td_sin_lagri"></td>
+                        </tr>
+                    </table>
+                </section>
 
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Venta</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Modelo comprado</th>
-                        <th>Tipo de material</th>
-                        <th>Cantidad pagada</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Agudeza Visual Sin Corrección</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Ojo</th>
+                                <th>Visión Lejana (20/__)</th>
+                                <th>Visión Cercana (20/__)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OD</strong></td>
+                                <td id="td_av_sin_lod"></td>
+                                <td id="td_av_sin_cod"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OI</strong></td>
+                                <td id="td_av_sin_loi"></td>
+                                <td id="td_av_sin_coi"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>AO</strong></td>
+                                <td id="td_av_sin_lao"></td>
+                                <td id="td_av_sin_cao"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
-            <section class="table-section">
-                <div class="section-title">
-                    <h3>Observaciones de la consulta</h3>
-                    <button class="btn-edit">Editar</button>
-                </div>
-                <table>
-                    <tr>
-                        <th>Observaciones</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
-            </section>
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Agudeza Visual con Lentes</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Ojo</th>
+                                <th>Visión Lejana (20/__)</th>
+                                <th>Visión Cercana (20/__)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OD</strong></td>
+                                <td id="td_av_con_lod"></td>
+                                <td id="td_av_con_cod"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OI</strong></td>
+                                <td id="td_av_con_loi"></td>
+                                <td id="td_av_con_coi"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>AO</strong></td>
+                                <td id="td_av_con_lao"></td>
+                                <td id="td_av_con_cao"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
+                <!-- TABLA 5: Graduación del Paciente -->
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Graduación de Paciente</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ojo</th>
+                                <th>ESF</th>
+                                <th>CYL</th>
+                                <th>EJE</th>
+                                <th>ADD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OD</strong></td>
+                                <td id="td_grant_esf_od"></td>
+                                <td id="td_grant_cyl_od"></td>
+                                <td id="td_grant_eje_od"></td>
+                                <td id="td_grant_add_od"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OI</strong></td>
+                                <td id="td_grant_esf_oi"></td>
+                                <td id="td_grant_cyl_oi"></td>
+                                <td id="td_grant_eje_oi"></td>
+                                <td id="td_grant_add_oi"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- TABLA 6: Graduación Actual -->
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Graduación Actual</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ojo</th>
+                                <th>ESF</th>
+                                <th>CYL</th>
+                                <th>EJE</th>
+                                <th>ADD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OD</strong></td>
+                                <td id="td_gract_esf_od"></td>
+                                <td id="td_gract_cyl_od"></td>
+                                <td id="td_gract_eje_od"></td>
+                                <td id="td_gract_add_od"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OI</strong></td>
+                                <td id="td_gract_esf_oi"></td>
+                                <td id="td_gract_cyl_oi"></td>
+                                <td id="td_gract_eje_oi"></td>
+                                <td id="td_gract_add_oi"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Lentes de Graduación</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Categoría</th>
+                        </tr>
+                        <tr>
+                            <td id="td_lentes_cat"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Tratamiento</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Tipo</th>
+                        </tr>
+                        <tr>
+                            <td id="td_tratam_tipo"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Venta</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Modelo comprado</th>
+                            <th>Tipo de material</th>
+                            <th>Cantidad pagada</th>
+                        </tr>
+                        <tr>
+                            <td id="td_venta_modelo"></td>
+                            <td id="td_venta_material"></td>
+                            <td id="td_venta_monto"></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="table-section">
+                    <div class="section-title">
+                        <h3>Observaciones de la consulta</h3>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Observaciones</th>
+                        </tr>
+                        <tr>
+                            <td id="td_observaciones"></td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
         </div>
     </main>
 
-    <script src="/B.C-Optica/public/js/JsHistorialClinico.js"></script>
+    <script src="/js/JsHistorialClinico.js"></script>
 </body>
 
 </html>

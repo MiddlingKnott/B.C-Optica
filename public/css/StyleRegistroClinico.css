@@ -4,32 +4,34 @@ body {
     padding: 20px;
 }
 
-/* --- Estilos del Modal --- */
-
-/* El fondo oscuro del modal */
 .modal {
-    display: none; /* Oculto por defecto */
     position: fixed; 
-    z-index: 1000;
+    z-index: 1000; 
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Permite scroll si el contenido es muy largo */
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    width: 100%; 
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c0f4f0;          
 }
 
 /* Contenedor del contenido del modal */
 .modal-content {
     background-color: #ffffff;
-    margin: 3% auto; /* 3% desde arriba y centrado */
+    margin: 3% auto;
+    /* 3% desde arriba y centrado */
     padding: 25px;
     border: 1px solid #888;
     border-radius: 8px;
     width: 90%;
-    max-width: 800px; /* Ancho máximo */
-    max-height: 90vh; /* Altura máxima para que no ocupe toda la pantalla */
-    overflow-y: auto; /* Scroll *dentro* del modal si es necesario */
+    max-width: 800px;
+    /* Ancho máximo */
+    max-height: 90vh;
+    /* Altura máxima para que no ocupe toda la pantalla */
+    overflow-y: auto;
+    /* Scroll *dentro* del modal si es necesario */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -75,8 +77,8 @@ legend {
 }
 
 .form-group label,
-.form-group-inline > label:first-child,
-.symptom-group > label:first-child {
+.form-group-inline>label:first-child,
+.symptom-group>label:first-child {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
@@ -89,9 +91,11 @@ textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    background-color: #ebebeb; /* Color gris de las imágenes */
+    background-color: #ebebeb;
+    /* Color gris de las imágenes */
     border-radius: 4px;
-    box-sizing: border-box; /* Importante para que el padding no afecte el ancho */
+    box-sizing: border-box;
+    /* Importante para que el padding no afecte el ancho */
     font-size: 1em;
 }
 
@@ -129,13 +133,15 @@ textarea {
 }
 
 .form-group-inline .small-input {
-    width: 80px; /* Ancho fijo para los campos pequeños */
+    width: 80px;
+    /* Ancho fijo para los campos pequeños */
 }
 
 /* Para la grilla de graduación */
 .grid-layout {
     display: grid;
-    grid-template-columns: 60px repeat(4, 1fr); /* 1 columna para label, 4 para datos */
+    grid-template-columns: 60px repeat(4, 1fr);
+    /* 1 columna para label, 4 para datos */
     gap: 8px;
     align-items: center;
 }
@@ -188,14 +194,16 @@ textarea {
 }
 
 .submit-btn {
-    background-color: #fce4e4; /* Fondo rosa pálido */
-    border: 2px solid #a0a0a0; /* Borde gris/oscuro */
+    background-color: #fce4e4;
+    /* Fondo rosa pálido */
+    border: 2px solid #a0a0a0;
+    /* Borde gris/oscuro */
     border-radius: 8px;
     padding: 12px 25px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .submit-btn:hover {
@@ -210,19 +218,41 @@ textarea {
 }
 
 .dual-column .form-group-inline {
-    gap: 2px; 
+    gap: 2px;
 }
 
 .dual-column .form-group-inline label {
     width: 65px;
 }
 
-.symptom-group > label:first-child {
-    width: 160px; /* Ajusta este valor si es necesario */
-    flex-shrink: 0; /* Evita que la etiqueta se encoja */
+.symptom-group>label:first-child {
+    width: 160px;
+    /* Ajusta este valor si es necesario */
+    flex-shrink: 0;
+    /* Evita que la etiqueta se encoja */
 }
 
-.symptom-group > label:nth-child(2) {
-    width: 80px; /* Ajusta este valor si es necesario */
+.symptom-group>label:nth-child(2) {
+    width: 80px;
+    /* Ajusta este valor si es necesario */
     flex-shrink: 0;
+}
+
+#datos-paciente-header {
+    background-color: #f0f8ff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-left: 5px solid #007bff;
+}
+
+#datos-paciente-header input[type="number"] {
+    width: 40px;
+    background-color: transparent;
+    padding: 3px;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    font-size: medium;
 }

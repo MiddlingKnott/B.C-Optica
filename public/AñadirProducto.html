@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir Nuevo Producto</title>
-  <link rel="stylesheet" href="/B.C-Optica/public/css/StyleAñadirProducto.css">
-  <script defer src="/B.C-Optica/public/js/JSAñadirProducto.js"></script>
+  <link rel="stylesheet" href="/css/StyleAñadirProducto.css">
+  <script defer src="/js/JSAñadirProducto.js"></script>
 </head>
 <body>
   <div class="sidebar">
     <div class="logo">
-      <a href="Inicio.html"><img src="/B.C-Optica/public/Imagenes/logo.jpeg" alt="Logo Óptica BC"></a>
+      <a href="Inicio.html"><img src="Imagenes/logo.jpeg" alt="Logo Óptica BC"></a>
     </div>
     <button onclick="window.location.href='Clientes.html'">
       <span class="icon">👤</span>
@@ -44,7 +44,16 @@
         <label for="piezas">Piezas:</label>
         <input type="number" id="piezas" name="piezas" required>
 
-        <button type="submit">Añadir</button>
+        <select id="categoria" name="categoria" required>
+            <option value="" disabled selected>Seleccione una categoría</option>
+            <option value="Armazon Linea">Armazón de Línea</option>
+            <option value="Armazon linea Bodega">Armazón de Línea (Bodega)</option>
+            <option value="Armazon promocion">Armazón Promoción</option>
+            <option value="Armazon promocion bodega">Armazón Promoción (Bodega)</option>
+            <option value="Articulos Auxiliares">Artículos Auxiliares</option>
+        </select>
+
+        <button type="submit">Añadir Producto</button>
       </form>
     </div>
   </div>

@@ -167,3 +167,8 @@ form button:hover {
     padding: 10px;
   }
 }
+
+.readedad{
+  background-color: #e9ecee; 
+  cursor: not-allowed;
+}
