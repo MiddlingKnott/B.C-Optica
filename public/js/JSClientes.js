@@ -58,9 +58,9 @@ async function cargarClientes(searchTerm = '') { // Estará vacío al inicio
     // 8. Si no hay resultados, muestra un mensaje
     if (clientes.length === 0) {
       if (searchTerm) {
-        tbody.innerHTML = '<tr><td colspan="3">No se encontró ese cliente.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4">No se encontró ese cliente.</td></tr>';
       } else {
-        tbody.innerHTML = '<tr><td colspan="3">No hay clientes registrados.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4">No hay clientes registrados.</td></tr>';
       }
       return;
     }
@@ -69,16 +69,18 @@ async function cargarClientes(searchTerm = '') { // Estará vacío al inicio
     clientes.forEach(cliente => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-                <td>${cliente.nombre}</td>
-                <td>${formatearFecha(cliente.fecha_nacimiento)}</td>
-                <td>${cliente.edad}</td>
-            `;
+            <td>${cliente.nombre}</td>
+            <td>${cliente.apellido || ''}</td>
+            <td>${formatearFecha(cliente.fecha_nacimiento)}</td>
+            <td>${cliente.edad}</td>
+        `;
       tbody.appendChild(tr);
     });
 
   } catch (error) {
     console.error('Error al cargar clientes:', error);
-    tbody.innerHTML = '<tr><td colspan="3">Error al cargar datos.</td></tr>';
+    const tbody = document.getElementById('tabla-clientes-body');
+    tbody.innerHTML = '<tr><td colspan="4">Error al cargar datos.</td></tr>';
   }
 }
 

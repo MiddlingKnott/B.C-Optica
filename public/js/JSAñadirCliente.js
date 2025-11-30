@@ -45,11 +45,13 @@ document.getElementById('formCliente').addEventListener('submit', async (e) => {
 
   // 1. Obtenemos los valores de los inputs
   const nombre = document.getElementById('nombre').value;
+  const apellido = document.getElementById('apellido').value;
   const fecha_nac = document.getElementById('fecha_nac').value;
 
   // 2. Creamos el objeto de datos que enviaremos
   const data = {
     nombre: nombre,
+    apellido: apellido,
     fecha_nacimiento: fecha_nac, // El nombre debe coincidir con el del modelo
   };
 
@@ -70,7 +72,7 @@ document.getElementById('formCliente').addEventListener('submit', async (e) => {
 
       const cliente = result.cliente; 
 
-      window.location.href = `/RegistroClinico.html?id=${cliente.id_cliente}&nombre=${encodeURIComponent(cliente.nombre)}&edad=${cliente.edad}`;
+      window.location.href = `/RegistroClinico.html?id=${cliente.id_cliente}&nombre=${encodeURIComponent(cliente.nombre)}&apellido=${encodeURIComponent(cliente.apellido)}&edad=${cliente.edad}`;
     } else {
       // Mostramos el error que envió el servidor
       alert('Error al agregar cliente: ' + result.message);
