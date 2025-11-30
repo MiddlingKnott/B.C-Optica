@@ -143,16 +143,28 @@ app.post('/login', async (req, res) => {
 app.post('/api/clientes/agregar', async (req, res) => {
     try {
         // Obtenemos los datos que envió el JavaScript
-        const { nombre, fecha_nacimiento } = req.body;
+        const { nombre, apellido, fecha_nacimiento } = req.body;
+
+        console.log('Datos recibidos:', { nombre, apellido, fecha_nacimiento });
 
         // Usamos el modelo para crear un nuevo registro en la BD
         const nuevoCliente = await Cliente.create({
             nombre: nombre,
+            apellido: apellido,
             fecha_nacimiento: fecha_nacimiento,
         });
 
+        console.log('Cliente creado:', nuevoCliente);
+
+        // Recargamos el cliente para obtener todos sus atributos (incluyendo apellido)
+        const clienteConAtributos = await Cliente.findByPk(nuevoCliente.id_cliente, {
+            attributes: ['id_cliente', 'nombre', 'apellido', 'fecha_nacimiento', 'edad']
+        });
+
+        console.log('Cliente con atributos:', clienteConAtributos);
+
         // Respondemos al JavaScript con éxito
-        res.status(201).json({ success: true, cliente: nuevoCliente });
+        res.status(201).json({ success: true, cliente: clienteConAtributos });
 
     } catch (error) {
         console.error('Error al agregar cliente:', error);
@@ -164,24 +176,26 @@ app.post('/api/clientes/agregar', async (req, res) => {
 app.get('/api/clientes', async (req, res) => {
     try {
         // Obtenemos el término de búsqueda de la URL (ej: /api/clientes?nombre=...)
-        const { nombre } = req.query;
+
+        const { nombre, apellido } = req.query;
 
         // Preparamos un objeto de filtro
         let filtro = {};
 
-        // Si se proporcionó un nombre en la URL...
+        // Si se proporcionó un nombre en la URL, usamos LIKE para coincidencias parciales
         if (nombre) {
-            // ...configuramos el filtro para buscar ESE nombre exacto.
-            // (MySQL es 'case-insensitive' por defecto, así que 'diego' encontrará 'Diego')
-            filtro.nombre = nombre;
+            filtro.nombre = { [Op.like]: `%${nombre}%` };
         }
 
-        // 1. Usa el modelo Cliente para buscar todos los registros
-        //    que coincidan con el filtro.
-        //    - Si 'filtro' está vacío ({}), traerá a TODOS los clientes.
-        //    - Si 'filtro' es {nombre: "Diego..."}, traerá SOLO a ese cliente.
+        // Si se proporcionó un apellido en la URL, usamos LIKE también
+        if (apellido) {
+            filtro.apellido = { [Op.like]: `%${apellido}%` };
+        }
+
+        // Buscamos en la BD usando el filtro (vacío = todos)
         const clientes = await Cliente.findAll({
-            where: filtro
+            where: filtro,
+            order: [['nombre', 'ASC'], ['apellido', 'ASC']]
         });
 
         // 2. Envía la lista de clientes (completa o filtrada) como JSON
@@ -715,7 +729,11 @@ async function iniciarServidor() {
         await sequelize.authenticate();
         console.log('Conexión a MySQL (XAMPP) establecida.');
 
-        // 2. Inicia el servidor web
+        // 2. Sincronizar modelos con la BD (alter: true = agregar columnas si faltan)
+        await sequelize.sync({ alter: true });
+        console.log('Modelos sincronizados con la base de datos.');
+
+        // 3. Inicia el servidor web
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
