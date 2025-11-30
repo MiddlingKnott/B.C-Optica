@@ -177,6 +177,7 @@
         <fieldset>
           <div class="dual-column">
             <div class="column checkbox-group">
+              <strong>Lentes de Graduación</strong>
               <label><input type="checkbox" name="lente" value="monofocal"> Monofocal</label>
               <label><input type="checkbox" name="lente" value="bifocal"> Bifocal</label>
               <label><input type="checkbox" name="lente" value="l28"> L28</label>
@@ -196,20 +197,56 @@
 
         <fieldset>
           <legend>Venta</legend>
-          <div class="form-group">
-            <label for="modelo_comprado">Modelo comprado</label>
-            <input type="text" id="modelo_comprado">
+
+          <div class="venta-box">
+            <div class="form-group">
+              <label>Producto:</label>
+              <select id="select_producto_venta">
+                <option value="">Cargando inventario...</option>
+              </select>
+            </div>
+
+            <div class="dual-column">
+              <div class="column">
+                <label>Tipo de Material / Detalle:</label>
+                <input type="text" id="temp_material" placeholder="Ej. Plástico">
+              </div>
+              <div class="column">
+                <label>Cantidad (Piezas):</label>
+                <input type="number" id="temp_cantidad" value="1" min="1">
+              </div>
+            </div>
+
+            <button type="button" id="btn_agregar_producto">
+              Agregar Producto a la Consulta
+            </button>
           </div>
-          <div class="form-group">
-            <label for="tipo_material">Tipo de material</label>
-            <input type="text" id="tipo_material">
+
+          <table id="tabla_carrito_visual">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Material</th>
+                <th>Cant.</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="fila_vacia">
+                <td colspan="4">Ningún producto agregado aún.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="form-group cantidad-box">
+            <label for="cantidad_pagada">Cantidad Pagada</label>
+            <input type="number" id="cantidad_pagada" placeholder="0.00">
           </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Observaciones de la Consulta</legend>
           <div class="form-group">
-            <label for="cantidad_pagada">Cantidad pagada</label>
-            <input type="text" id="cantidad_pagada">
-          </div>
-          <div class="form-group">
-            <label for="observaciones">Observaciones:</label>
             <textarea id="observaciones" rows="3"></textarea>
           </div>
         </fieldset>

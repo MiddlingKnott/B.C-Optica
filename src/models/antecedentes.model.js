@@ -18,10 +18,12 @@ const Antecedentes = sequelize.define('AntecedentesPatologicos', {
         }
     },
     personales: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: ''
     },
     no_personales: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: ''
     }
 }, {
     tableName: 'AntecedentesPatologicos',

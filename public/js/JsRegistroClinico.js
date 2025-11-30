@@ -1,3 +1,4 @@
+let carritoVenta = [];
 document.addEventListener("DOMContentLoaded", async function () {
 
     // Elementos del DOM
@@ -105,6 +106,39 @@ document.addEventListener("DOMContentLoaded", async function () {
             .catch(err => console.log("Cliente nuevo sin antecedentes previos"));
     }
 
+    // LLAMADA CLAVE PARA LLENAR EL SELECT
+    cargarProductosInventario();
+
+    // Lógica del botón de agregar producto al carrito
+    document.getElementById('btn_agregar_producto').addEventListener('click', () => {
+        const select = document.getElementById('select_producto_venta');
+        const material = document.getElementById('temp_material').value;
+        const cantidad = document.getElementById('temp_cantidad').value;
+
+        const idProd = select.value;
+        const selectedOption = select.options[select.selectedIndex];
+
+        if (!idProd || cantidad < 1) {
+            alert("Selecciona un producto y una cantidad válida.");
+            return;
+        }
+
+        // Agregamos al array global
+        carritoVenta.push({
+            id_producto: idProd,
+            nombre: selectedOption.getAttribute('data-nombre') || selectedOption.textContent,
+            material: material,
+            cantidad: parseInt(cantidad)
+        });
+
+        // Actualizamos la tabla visual
+        actualizarTablaCarrito();
+
+        // Limpiamos inputs
+        select.value = "";
+        document.getElementById('temp_material').value = "";
+        document.getElementById('temp_cantidad').value = "1";
+    });
 
     // 3. CERRAR MODAL 
     span.onclick = function () {
@@ -123,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Recolección de datos
         const datosConsulta = {
             id_cliente: inputIdCliente.value,
-            fecha_consulta: document.getElementById('input_fecha_consulta').value,
+            fecha_consulta: getSafeValue('input_fecha_consulta'),
             observaciones_generales: document.getElementById('observaciones').value,
 
             antecedentes: {
@@ -172,10 +206,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             tratamientos_seleccionados: obtenerArrayCheckboxes('tratamiento'),
 
             venta: {
-                modelo: document.getElementById('modelo_comprado').value,
-                material: document.getElementById('tipo_material').value,
-                cantidad: document.getElementById('cantidad_pagada').value
-            }
+                cantidad: document.getElementById('cantidad_pagada').value,
+            },
+            productos_venta: carritoVenta
         };
 
         try {
@@ -264,15 +297,32 @@ function llenarFormulario(data) {
         setValue('dip', gn.dip);
     }
 
-    // 6. Venta
-    let venta = null;
-    if (Array.isArray(data.Venta) && data.Venta.length > 0) venta = data.Venta[0];
-    else if (data.Venta && !Array.isArray(data.Venta)) venta = data.Venta;
+    const ventasRecibidas = data.Venta || data.Ventas || [];
+    carritoVenta = [];
 
-    if (venta) {
-        setValue('modelo_comprado', venta.modeloComprado);
-        setValue('tipo_material', venta.tipoMaterial);
-        setValue('cantidad_pagada', venta.cantidadPagada);
+    // Obtenemos todas las opciones del select (que ya cargamos con el inventario)
+    const opcionesSelect = document.getElementById('select_producto_venta').options;
+
+    if (Array.isArray(ventasRecibidas) && ventasRecibidas.length > 0) {
+        ventasRecibidas.forEach(v => {
+
+            let idEncontrado = 0;
+            // Recorremos las opciones del select para ver si alguna coincide con el nombre guardado
+            for (let i = 0; i < opcionesSelect.length; i++) {
+                if (opcionesSelect[i].text.includes(v.modeloComprado)) {
+                    idEncontrado = opcionesSelect[i].value;
+                    break;
+                }
+            }
+
+            carritoVenta.push({
+                id_producto: idEncontrado, // ¡Ahora sí enviamos el ID real!
+                nombre: v.modeloComprado,
+                material: v.tipoMaterial,
+                cantidad: parseFloat(v.cantidadPagada)
+            });
+        });
+        actualizarTablaCarrito();
     }
 
     // 7. Checkboxes Múltiples (Catálogos)
@@ -328,5 +378,74 @@ function marcarCheckbox(name, value) {
     } else {
         el = document.querySelector(`input[name="${name}"][value="${value.toLowerCase()}"]`);
         if (el) el.checked = true;
+    }
+}
+function getSafeValue(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+}
+// --- LÓGICA DEL CARRITO (VENTA MÚLTIPLE) ---
+
+// La función que dibuja la tabla visual
+function actualizarTablaCarrito() {
+    const tbody = document.querySelector('#tabla_carrito_visual tbody');
+    tbody.innerHTML = '';
+
+    if (carritoVenta.length === 0) {
+        tbody.innerHTML = '<tr id="fila_vacia"><td colspan="4" style="text-align:center; color:gray;">Ningún producto agregado.</td></tr>';
+        return;
+    }
+
+    carritoVenta.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.nombre}</td>
+            <td>${item.material || '-'}</td>
+            <td>${item.cantidad}</td>
+            <td><button type="button" onclick="eliminarDelCarrito(${index})" style="color:red; border:none; background:none; cursor:pointer; display:block; margin:auto;">Eliminar</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Hace global la función para que el onclick la encuentre
+window.eliminarDelCarrito = function (index) {
+    carritoVenta.splice(index, 1);
+    actualizarTablaCarrito();
+}
+
+// --- FUNCIÓN PARA LLENAR EL SELECT (Organización por Categoría) ---
+async function cargarProductosInventario() {
+    const select = document.getElementById('select_producto_venta');
+
+    try {
+        const res = await fetch('/api/productos');
+        const productos = await res.json();
+
+        const productosAgrupados = productos.reduce((acc, prod) => {
+            (acc[prod.categoria] = acc[prod.categoria] || []).push(prod);
+            return acc;
+        }, {});
+
+        select.innerHTML = '<option value="">-- Seleccione un armazón/producto --</option>';
+
+        for (const categoria in productosAgrupados) {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = categoria;
+
+            productosAgrupados[categoria].forEach(prod => {
+                const option = document.createElement('option');
+                option.value = prod.id_producto;
+                option.textContent = `${prod.marca} (Stock: ${prod.stock})`;
+                option.setAttribute('data-nombre', prod.marca);
+
+                optgroup.appendChild(option);
+            });
+            select.appendChild(optgroup);
+        }
+
+    } catch (error) {
+        console.error("Error cargando inventario:", error);
+        select.innerHTML = '<option value="">Error al cargar productos</option>';
     }
 }

@@ -82,7 +82,7 @@ app.use(express.json());
 app.get('/api/consultas/por-fecha', async (req, res) => {
     try {
         const { inicio, fin } = req.query;
-        
+
         // Validación simple
         if (!inicio || !fin) {
             alert("Ingresa ambas fechas")
@@ -181,7 +181,10 @@ app.get('/api/clientes', async (req, res) => {
         //    - Si 'filtro' está vacío ({}), traerá a TODOS los clientes.
         //    - Si 'filtro' es {nombre: "Diego..."}, traerá SOLO a ese cliente.
         const clientes = await Cliente.findAll({
-            where: filtro
+            where: filtro,
+            order: [
+                ['id_cliente', 'DESC']
+            ]
         });
 
         // 2. Envía la lista de clientes (completa o filtrada) como JSON
@@ -407,14 +410,32 @@ app.post('/api/consultas/agregar', async (req, res) => {
         // ====================================================
         // PASO 6: Guardar VENTA (Si aplica)
         // ====================================================
-        // Solo creamos la venta si escribieron un monto o un modelo
-        if (d.venta.cantidad && d.venta.modelo) {
-            await Venta.create({
-                id_consulta: idC,
-                modeloComprado: d.venta.modelo,
-                tipoMaterial: d.venta.material,
-                cantidadPagada: d.venta.cantidad
-            });
+        // Verificamos si hay productos en el carrito (el array que viene del JS)
+        if (d.productos_venta && d.productos_venta.length > 0) {
+
+            // Recorremos cada producto del carrito
+            for (const item of d.productos_venta) {
+
+                // A. BUSCAR Y DESCONTAR STOCK (Solo si tenemos ID de producto)
+                if (item.id_producto) {
+                    const productoEncontrado = await Producto.findByPk(item.id_producto);
+                    if (productoEncontrado) {
+                        const nuevaCantidad = productoEncontrado.stock - item.cantidad;
+
+                        // Actualizamos el stock
+                        await productoEncontrado.update({ stock: nuevaCantidad });
+                    }
+                }
+
+                // B. CREAR REGISTRO EN TABLA VENTAS (Se creará una fila por cada producto)
+                await Venta.create({
+                    id_consulta: idC,
+                    id_cliente: d.id_cliente,
+                    modeloComprado: item.nombre,
+                    tipoMaterial: item.material,
+                    cantidadPagada: d.venta.cantidad,
+                });
+            }
         }
 
         if (d.lentes_seleccionados && d.lentes_seleccionados.length > 0) {
@@ -635,16 +656,59 @@ app.put('/api/consultas/:id', async (req, res) => {
         });
 
         // --- 6. Actualizar Venta ---
-        await Venta.destroy({ where: { id_consulta: idC } });
-        // Solo creamos venta si enviaron datos válidos
-        if (d.venta && d.venta.cantidad && d.venta.modelo) {
-            await Venta.create({
-                id_consulta: idC,
-                id_cliente: d.id_cliente,
-                modeloComprado: d.venta.modelo,
-                tipoMaterial: d.venta.material,
-                cantidadPagada: d.venta.cantidad
+        // --- 6. Actualizar Venta (CON LOGICA DE STOCK) ---
+
+        // A. RECUPERAR STOCK ANTES DE BORRAR
+        const ventasAnteriores = await Venta.findAll({ where: { id_consulta: idC } });
+
+        for (const ventaVieja of ventasAnteriores) {
+            const productoOriginal = await Producto.findOne({
+                where: { marca: ventaVieja.modeloComprado }
             });
+
+            if (productoOriginal) {
+                // --- CORRECCIÓN AQUÍ: USAR parseInt() ---
+
+                // 1. Aseguramos que el stock actual sea un número
+                const stockActual = parseInt(productoOriginal.stock);
+
+                // 2. Aseguramos que la cantidad a devolver sea un número
+                // (Si cantidadPagada es nulo, usamos 0)
+                const cantidadADevolver = parseInt(ventaVieja.cantidadPagada) || 0;
+
+                // 3. Hacemos la suma matemática
+                const stockRestaurado = stockActual + cantidadADevolver;
+
+                await productoOriginal.update({ stock: stockRestaurado });
+                console.log(`Stock restaurado: ${stockActual} + ${cantidadADevolver} = ${stockRestaurado}`);
+            }
+        }
+
+        // B. AHORA SÍ, BORRAMOS EL REGISTRO VIEJO DE VENTA
+        await Venta.destroy({ where: { id_consulta: idC } });
+
+        // C. PROCESAMOS LA NUEVA LISTA (EL CARRITO NUEVO)
+        if (d.productos_venta && d.productos_venta.length > 0) {
+            for (const item of d.productos_venta) {
+
+                // Descontamos stock (NUEVO DESCUENTO)
+                if (item.id_producto) {
+                    const prod = await Producto.findByPk(item.id_producto);
+                    if (prod) {
+                        const nuevoStock = prod.stock - item.cantidad;
+                        await prod.update({ stock: nuevoStock });
+                    }
+                }
+
+                // Creamos el nuevo registro de venta
+                await Venta.create({
+                    id_consulta: idC,
+                    id_cliente: d.id_cliente,
+                    modeloComprado: item.nombre,
+                    tipoMaterial: item.material,
+                    cantidadPagada: item.cantidad
+                });
+            }
         }
 
         // A. Limpiamos relaciones viejas

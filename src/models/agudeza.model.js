@@ -20,13 +20,31 @@ const AgudezaVisual = sequelize.define('AgudezaVisual', {
         type: DataTypes.ENUM('SinCorreccion', 'ConLentes'),
         allowNull: false
     },
-    // --- AQUÍ ESTABA EL ERROR: USAR STRING EN LUGAR DE VARCHAR ---
-    vl_od: DataTypes.STRING(10),
-    vl_oi: DataTypes.STRING(10),
-    vl_ao: DataTypes.STRING(10),
-    vc_od: DataTypes.STRING(10),
-    vc_oi: DataTypes.STRING(10),
-    vc_ao: DataTypes.STRING(10)
+
+    vl_od: {
+        type: DataTypes.STRING(10),
+        defaultValue: '' 
+    },
+    vl_oi: {
+        type: DataTypes.STRING(10),
+        defaultValue: ''
+    },
+    vl_ao: {
+        type: DataTypes.STRING(10),
+        defaultValue: ''
+    },
+    vc_od: {
+        type: DataTypes.STRING(10),
+        defaultValue: ''
+    },
+    vc_oi: {
+        type: DataTypes.STRING(10),
+        defaultValue: ''
+    },
+    vc_ao: {
+        type: DataTypes.STRING(10),
+        defaultValue: ''
+    }
 }, {
     tableName: 'AgudezaVisual',
     timestamps: false

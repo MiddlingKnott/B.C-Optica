@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             consultas.forEach(c => {
                 const div = document.createElement('div');
                 div.className = 'cliente-item'; // Reutilizamos tu estilo CSS
-                
+
                 // Estilos extra
                 div.style.padding = '10px';
                 div.style.borderBottom = '1px solid #eee';
@@ -86,18 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span><strong>${fechaStr}</strong></span>
                     <span> ${c.Cliente ? c.Cliente.nombre : 'Cliente desconocido'}</span>
                 `;
-                
+
                 div.onclick = async () => {
                     // Buscamos al cliente completo por su nombre para cargar su perfil normal
                     // (Esto reutiliza tu lógica existente de cargarCliente)
                     const resCliente = await fetch(`/api/historial/buscar?nombre=${encodeURIComponent(c.Cliente.nombre)}`);
                     const clientesFound = await resCliente.json();
-                    
-                    if(clientesFound.length > 0) {
+
+                    if (clientesFound.length > 0) {
                         cargarCliente(clientesFound[0]); // Tu función existente
                     }
                 };
-                
+
                 listaResultados.appendChild(div);
             });
 
@@ -303,19 +303,23 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('td_tratam_tipo', Array.isArray(tratam) ? tratam.map(t => t.nombre).join(', ') : '-');
 
         // Venta
-        let venta = null;
-        if (Array.isArray(c.Venta) && c.Venta.length > 0) venta = c.Venta[0];
-        else if (Array.isArray(c.Ventas) && c.Ventas.length > 0) venta = c.Ventas[0];
-        else if (c.Venta && !Array.isArray(c.Venta)) venta = c.Venta;
+        const tablaVentaBody = document.getElementById('tbody_historial_venta');
+        tablaVentaBody.innerHTML = ''; // Limpiar la tabla
 
-        if (venta) {
-            setText('td_venta_modelo', venta.modeloComprado);
-            setText('td_venta_material', venta.tipoMaterial);
-            setText('td_venta_monto', venta.cantidadPagada);
+        let ventas = c.Venta || c.Ventas || [];
+
+        if (Array.isArray(ventas) && ventas.length > 0) {
+            ventas.forEach(v => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${v.modeloComprado}</td>
+                <td>${v.tipoMaterial || '-'}</td>
+                <td>${v.cantidadPagada || '-'}</td>
+            `;
+                tablaVentaBody.appendChild(tr);
+            });
         } else {
-            setText('td_venta_modelo', '-');
-            setText('td_venta_material', '-');
-            setText('td_venta_monto', '-');
+            tablaVentaBody.innerHTML = `<tr><td colspan="3">- Sin venta asociada -</td></tr>`;
         }
     }
 

@@ -21,7 +21,8 @@ const Consulta = sequelize.define('Consulta', {
         allowNull: false
     },
     observaciones_generales: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: ''
     }
 }, {
     tableName: 'Consultas',

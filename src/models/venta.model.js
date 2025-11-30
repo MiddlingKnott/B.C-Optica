@@ -16,9 +16,9 @@ const Venta = sequelize.define('Venta', {
             key: 'id_consulta'
         }
     },
-    modeloComprado: DataTypes.STRING(255),
-    tipoMaterial: DataTypes.STRING(255),
-    cantidadPagada: DataTypes.STRING(20) // Lo dejaste como VARCHAR en tu BD final
+    modeloComprado: { type: DataTypes.STRING(255), defaultValue: '' },
+    tipoMaterial: { type: DataTypes.STRING(255), defaultValue: '' },
+    cantidadPagada: { type: DataTypes.DECIMAL(10, 2), defaultValue: '0.00' } 
 }, {
     tableName: 'Ventas',
     timestamps: false

@@ -17,14 +17,14 @@ const GraduacionAnterior = sequelize.define('GraduacionAnterior', {
             key: 'id_consulta'
         }
     },
-    od_esf: DataTypes.STRING(20),
-    od_cyl: DataTypes.STRING(20),
-    od_eje: DataTypes.STRING(20),
-    od_add: DataTypes.STRING(20),
-    oi_esf: DataTypes.STRING(20),
-    oi_cyl: DataTypes.STRING(20),
-    oi_eje: DataTypes.STRING(20),
-    oi_add: DataTypes.STRING(20)
+    od_esf: { type: DataTypes.STRING(20), defaultValue: '0' },
+    od_cyl: { type: DataTypes.STRING(20), defaultValue: '0' },
+    od_eje: { type: DataTypes.STRING(20), defaultValue: '0' },
+    od_add: { type: DataTypes.STRING(20), defaultValue: '0' },
+    oi_esf: { type: DataTypes.STRING(20), defaultValue: '0' },
+    oi_cyl: { type: DataTypes.STRING(20), defaultValue: '0' },
+    oi_eje: { type: DataTypes.STRING(20), defaultValue: '0' },
+    oi_add: { type: DataTypes.STRING(20), defaultValue: '0' }
 }, {
     tableName: 'GraduacionAnterior',
     timestamps: false
