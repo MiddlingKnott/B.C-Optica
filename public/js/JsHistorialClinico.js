@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 div.innerHTML = `
                     <span><strong>${fechaStr}</strong></span>
-                    <span> ${c.Cliente ? c.Cliente.nombre : 'Cliente desconocido'}</span>
+                    <span>${c.Cliente ? (c.Cliente.nombre + ' ' + c.Cliente.apellido) : 'Cliente desconocido'}</span>
                 `;
 
                 div.onclick = async () => {
@@ -121,8 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(`/api/historial/buscar?nombre=${encodeURIComponent(termino)}`);
             const clientes = await res.json();
 
-            console.log("Clientes encontrados:", clientes); // DEPURACIÓN
-
             listaResultados.innerHTML = '';
 
             if (clientes.length === 0) {
@@ -137,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.style.padding = '10px';
                 div.style.borderBottom = '1px solid #eee';
                 div.style.cursor = 'pointer';
-                div.innerHTML = `<strong>${cliente.nombre}</strong> (Edad: ${cliente.edad})`;
+                div.innerHTML = `<strong>${cliente.nombre} ${cliente.apellido}</strong> (Edad: ${cliente.edad})`;
 
                 div.onclick = () => cargarCliente(cliente);
                 listaResultados.appendChild(div);
@@ -156,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ocultamos lista y mostramos encabezado del cliente
         listaResultados.style.display = 'none';
         seccionDatos.style.display = 'block';
-        nombreClienteDisplay.textContent = cliente.nombre;
+        nombreClienteDisplay.textContent = `${cliente.nombre} ${cliente.apellido}`;
         clienteActual = cliente;
 
         // A. Llenar Antecedentes
@@ -291,8 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gAct) {
             setText('td_gract_esf_od', gAct.od_esf); setText('td_gract_cyl_od', gAct.od_cyl); setText('td_gract_eje_od', gAct.od_eje); setText('td_gract_add_od', gAct.od_add);
             setText('td_gract_esf_oi', gAct.oi_esf); setText('td_gract_cyl_oi', gAct.oi_cyl); setText('td_gract_eje_oi', gAct.oi_eje); setText('td_gract_add_oi', gAct.oi_add);
+            setText('td_gract_dip', gAct.dip);
         } else {
             limpiarTablaGraduacion('gract');
+            setText('td_gract_dip', '-');
         }
 
         // Catálogos (Arrays)

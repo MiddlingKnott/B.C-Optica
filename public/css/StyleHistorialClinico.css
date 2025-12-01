@@ -462,3 +462,6 @@ main {
   cursor: pointer;
   font-weight: bold;
 }
+#td_gract_dip{
+  vertical-align: middle; background-color: #f9f9f9;
+} 

@@ -18,7 +18,11 @@ const Venta = sequelize.define('Venta', {
     },
     modeloComprado: { type: DataTypes.STRING(255), defaultValue: '' },
     tipoMaterial: { type: DataTypes.STRING(255), defaultValue: '' },
-    cantidadPagada: { type: DataTypes.DECIMAL(10, 2), defaultValue: '0.00' } 
+    cantidadPagada: { type: DataTypes.DECIMAL(10, 2), defaultValue: '0.00' }, 
+    cantidad_piezas: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1
+    }
 }, {
     tableName: 'Ventas',
     timestamps: false

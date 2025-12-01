@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Parametros para CREAR (Vienen de Añadir Cliente o Botón Nueva Consulta)
     const idClienteUrl = params.get('id');
     const nombreUrl = params.get('nombre');
+    const apellidoUrl = params.get('apellido');
     const edadUrl = params.get('edad');
 
     // Parametros para EDITAR (Vienen del botón Editar en Historial)
@@ -50,8 +51,25 @@ document.addEventListener("DOMContentLoaded", async function () {
             llenarFormulario(data);
 
             // Actualizamos el header con nombre real
+            // 2. ACTUALIZAMOS EL ENCABEZADO (Header)
             if (data.Cliente) {
-                headerInfo.innerHTML = `<strong>Editando consulta de:</strong> ${data.Cliente.nombre}`;
+                // Preparamos la fecha solo para guardarla en oculto (backend la necesita)
+                const fechaObj = new Date(data.fecha);
+                const year = fechaObj.getUTCFullYear();
+                const month = String(fechaObj.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(fechaObj.getUTCDate()).padStart(2, '0');
+                const fechaFormatted = `${year}-${month}-${day}`;
+
+                // --- CAMBIO: DISEÑO MINIMALISTA (Solo Nombre) ---
+                headerInfo.innerHTML = `
+                    <div style="text-align: center;">
+                        <h2 style="margin: 0; color: #0056b3; font-size: 24px;">
+                             ${data.Cliente.nombre} ${data.Cliente.apellido}
+                        </h2>
+
+                        <input type="hidden" id="input_fecha_consulta" value="${fechaFormatted}">
+                    </div>
+                `;
             }
 
         } catch (error) {
@@ -74,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         headerInfo.innerHTML = `
         <div style="display: flex; align-items: center; justify-content: space-between; font-size: 1.1em;">
             <div>
-                <strong>Paciente:</strong> ${nombreUrl} &nbsp;|&nbsp; 
+                <strong>Paciente:</strong> ${nombreUrl} ${apellidoUrl} &nbsp;|&nbsp;
                 <strong>Edad:</strong> 
                 <input type="number" value="${edadUrl}" disabled >
             </div>
@@ -304,6 +322,7 @@ function llenarFormulario(data) {
     const opcionesSelect = document.getElementById('select_producto_venta').options;
 
     if (Array.isArray(ventasRecibidas) && ventasRecibidas.length > 0) {
+        setValue('cantidad_pagada', ventasRecibidas[0].cantidadPagada);
         ventasRecibidas.forEach(v => {
 
             let idEncontrado = 0;
@@ -316,10 +335,10 @@ function llenarFormulario(data) {
             }
 
             carritoVenta.push({
-                id_producto: idEncontrado, // ¡Ahora sí enviamos el ID real!
+                id_producto: idEncontrado,
                 nombre: v.modeloComprado,
                 material: v.tipoMaterial,
-                cantidad: parseFloat(v.cantidadPagada)
+                cantidad: v.cantidad_piezas
             });
         });
         actualizarTablaCarrito();

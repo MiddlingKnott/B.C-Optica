@@ -10,11 +10,13 @@ const Cliente = sequelize.define('Cliente', {
     },
     nombre: {
         type: DataTypes.STRING(100),
+        defaultValue: '',
         allowNull: false
+
     },
     apellido: {
         type: DataTypes.STRING(100),
-        allowNull: true
+        allowNull: false
     },
     fecha_nacimiento: {
         type: DataTypes.DATEONLY,

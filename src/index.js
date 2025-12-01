@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const sequelize = require('./config/database'); // Importar archivo de conexión de la bd
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 //  requires de las tablas de la bd
 const Usuario = require('./models/usuario.model');
@@ -175,35 +175,31 @@ app.post('/api/clientes/agregar', async (req, res) => {
 // Ruta para obtener y visualizar Clientes
 app.get('/api/clientes', async (req, res) => {
     try {
-        // Obtenemos el término de búsqueda de la URL (ej: /api/clientes?nombre=...)
-
-        const { nombre, apellido } = req.query;
-
-        // Preparamos un objeto de filtro
+        const { nombre } = req.query; // El texto del buscador
         let filtro = {};
 
-        // Si se proporcionó un nombre en la URL, usamos LIKE para coincidencias parciales
         if (nombre) {
-            filtro.nombre = { [Op.like]: `%${nombre}%` };
+            // LÓGICA IDÉNTICA A HISTORIAL:
+            // "Concatena nombre + espacio + apellido y busca coincidencias"
+            filtro = Sequelize.where(
+                Sequelize.fn('concat', Sequelize.col('nombre'), ' ', Sequelize.col('apellido')),
+                {
+                    [Op.like]: `%${nombre}%`
+                }
+            );
         }
 
-        // Si se proporcionó un apellido en la URL, usamos LIKE también
-        if (apellido) {
-            filtro.apellido = { [Op.like]: `%${apellido}%` };
-        }
-
-        // Buscamos en la BD usando el filtro (vacío = todos)
         const clientes = await Cliente.findAll({
             where: filtro,
-            order: [['nombre', 'ASC'], ['apellido', 'ASC']]
+            // Ordenamos del más nuevo al más antiguo
+            order: [['id_cliente', 'DESC']]
         });
 
-        // 2. Envía la lista de clientes (completa o filtrada) como JSON
         res.json(clientes);
 
     } catch (error) {
         console.error('Error al obtener clientes:', error);
-        res.status(500).json({ message: 'Error en el servidor.' });
+        res.status(500).json({ success: false, message: 'Error en el servidor: ' + error.message });
     }
 });
 
@@ -441,10 +437,10 @@ app.post('/api/consultas/agregar', async (req, res) => {
                 // B. CREAR REGISTRO EN TABLA VENTAS (Se creará una fila por cada producto)
                 await Venta.create({
                     id_consulta: idC,
-                    id_cliente: d.id_cliente,
                     modeloComprado: item.nombre,
                     tipoMaterial: item.material,
                     cantidadPagada: d.venta.cantidad,
+                    cantidad_piezas: item.cantidad
                 });
             }
         }
@@ -507,32 +503,30 @@ app.post('/api/consultas/agregar', async (req, res) => {
 
 app.get('/api/historial/buscar', async (req, res) => {
     try {
-        const { nombre } = req.query;
+        const { nombre } = req.query; // El término que escribió el usuario
 
-        // Si no hay nombre, devolvemos lista vacía
         if (!nombre) return res.json([]);
 
-        // Buscamos al cliente y traemos TODA su información relacionada
+        // Búsqueda Avanzada: Concatena "Nombre + Espacio + Apellido" y busca en eso
         const clientes = await Cliente.findAll({
-            where: {
-                // Busca coincidencias parciales (ej: "Trav" encuentra "Travis")
-                nombre: { [Op.like]: `%${nombre}%` }
-            },
+            where: Sequelize.where(
+                Sequelize.fn('concat', Sequelize.col('Cliente.nombre'), ' ', Sequelize.col('Cliente.apellido')),
+                {
+                    [Op.like]: `%${nombre}%`
+                }
+            ),
             include: [
-                // 1. Datos fijos del cliente
                 { model: Antecedentes },
-
-                // 2. Todas sus consultas y el detalle de cada una
                 {
                     model: Consulta,
                     include: [
                         Sintomas,
-                        AgudezaVisual,     // Nota: Sequelize lo pluraliza a veces
+                        AgudezaVisual,
                         GraduacionAnterior,
                         GraduacionActual,
                         Venta,
-                        { model: CatTipoGraduacion }, // Lentes seleccionados
-                        { model: CatTratamiento }     // Tratamientos seleccionados
+                        { model: CatTipoGraduacion },
+                        { model: CatTratamiento }
                     ]
                 }
             ]
@@ -541,11 +535,10 @@ app.get('/api/historial/buscar', async (req, res) => {
         res.json(clientes);
 
     } catch (error) {
-        console.error('Error al buscar historial:', error);
-        res.status(500).json({ message: 'Error en el servidor.' });
+        console.error('Error detallado al buscar historial:', error);
+        res.status(500).json({ message: 'Error en el servidor: ' + error.message });
     }
 });
-
 
 // ====================================================
 // RUTA 1: OBTENER UNA CONSULTA ESPECÍFICA (Para Editar)
@@ -678,20 +671,14 @@ app.put('/api/consultas/:id', async (req, res) => {
             });
 
             if (productoOriginal) {
-                // --- CORRECCIÓN AQUÍ: USAR parseInt() ---
+                const productoOriginal = await Producto.findOne({ where: { marca: ventaVieja.modeloComprado } });
 
-                // 1. Aseguramos que el stock actual sea un número
-                const stockActual = parseInt(productoOriginal.stock);
+                if (productoOriginal) {
+                    const stockActual = parseInt(productoOriginal.stock);
+                    const piezasADevolver = parseInt(ventaVieja.cantidad_piezas); // <--- USO CORRECTO
 
-                // 2. Aseguramos que la cantidad a devolver sea un número
-                // (Si cantidadPagada es nulo, usamos 0)
-                const cantidadADevolver = parseInt(ventaVieja.cantidadPagada) || 0;
-
-                // 3. Hacemos la suma matemática
-                const stockRestaurado = stockActual + cantidadADevolver;
-
-                await productoOriginal.update({ stock: stockRestaurado });
-                console.log(`Stock restaurado: ${stockActual} + ${cantidadADevolver} = ${stockRestaurado}`);
+                    await productoOriginal.update({ stock: stockActual + piezasADevolver });
+                }
             }
         }
 
@@ -714,10 +701,10 @@ app.put('/api/consultas/:id', async (req, res) => {
                 // Creamos el nuevo registro de venta
                 await Venta.create({
                     id_consulta: idC,
-                    id_cliente: d.id_cliente,
                     modeloComprado: item.nombre,
                     tipoMaterial: item.material,
-                    cantidadPagada: item.cantidad
+                    cantidadPagada: d.venta.cantidad,
+                    cantidad_piezas: item.cantidad
                 });
             }
         }
@@ -790,11 +777,7 @@ async function iniciarServidor() {
         await sequelize.authenticate();
         console.log('Conexión a MySQL (XAMPP) establecida.');
 
-        // 2. Sincronizar modelos con la BD (alter: true = agregar columnas si faltan)
-        await sequelize.sync({ alter: true });
-        console.log('Modelos sincronizados con la base de datos.');
-
-        // 3. Inicia el servidor web
+        // 2. Inicia el servidor web
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
