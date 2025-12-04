@@ -390,14 +390,28 @@ function marcarRadioSiNo(name, boolValue) {
     marcarRadio(name, valorAUsar);
 }
 
-function marcarCheckbox(name, value) {
-    let el = document.querySelector(`input[name="${name}"][value="${value}"]`);
-    if (el) {
-        el.checked = true;
-    } else {
-        el = document.querySelector(`input[name="${name}"][value="${value.toLowerCase()}"]`);
-        if (el) el.checked = true;
-    }
+function marcarCheckbox(name, valueRecibido) {
+    if (!valueRecibido) return;
+
+    // Normalizamos el valor de la BD a minúsculas (Ej: "Monofocal" -> "monofocal")
+    const valBusqueda = valueRecibido.toLowerCase();
+
+    // Buscamos todos los checkboxes de ese grupo
+    const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+
+    checkboxes.forEach(cb => {
+        // Normalizamos el valor del HTML a minúsculas
+        const valHTML = cb.value.toLowerCase();
+
+        // Comparamos "peras con peras"
+        if (valHTML === valBusqueda) {
+            cb.checked = true;
+        }
+        // Fix extra para espacios ("Foto Blue" vs "FotoBlue")
+        else if (valHTML.replace(/\s/g, '') === valBusqueda.replace(/\s/g, '')) {
+            cb.checked = true;
+        }
+    });
 }
 function getSafeValue(id) {
     const el = document.getElementById(id);

@@ -75,6 +75,40 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+async function sembrarDatosIniciales() {
+    try {
+        // 1. USUARIO ADMINISTRADOR
+        // Busca si existe 'Adminbc'. Si no, lo crea.
+        await Usuario.findOrCreate({
+            where: { nom_usuario: 'Adminbc' },
+            defaults: {
+                password_hash: 'opticabc925' // Aquí iría el hash si usaras bcrypt
+            }
+        });
+
+        // 2. CATÁLOGO: TIPOS DE GRADUACIÓN
+        const tiposGraduacion = ['Monofocal', 'Bifocal', 'L28', 'Inv', 'Progresivo'];
+
+        for (const tipo of tiposGraduacion) {
+            await CatTipoGraduacion.findOrCreate({
+                where: { nombre: tipo }
+            });
+        }
+
+        // 3. CATÁLOGO: TRATAMIENTOS
+        const tratamientos = ['AR', 'FotoAR', 'BlueProtect', 'FotoBlue', 'Policarbonato'];
+
+        for (const trat of tratamientos) {
+            await CatTratamiento.findOrCreate({
+                where: { nombre: trat }
+            });
+        }
+
+    } catch (error) {
+        console.error('⚠️ Error al sembrar datos:', error);
+    }
+}
+
 // Inicio Rutas de la API 
 
 // --- RUTA A PRUEBA DE FALLOS ---
@@ -445,42 +479,40 @@ app.post('/api/consultas/agregar', async (req, res) => {
             }
         }
 
+        const { CatTipoGraduacion, CatTratamiento, ConsultaTipoGrad, ConsultaTratamiento } = require('./models/catalogos.model');
+
+        // A. Lentes (Convertimos todo a minúsculas para comparar)
         if (d.lentes_seleccionados && d.lentes_seleccionados.length > 0) {
-            // Buscamos los IDs en el catálogo basados en los nombres que envió el frontend
+            // Convertimos lo que llega del frontend a minúsculas
+            const lentesInput = d.lentes_seleccionados.map(l => l.toLowerCase());
+
             const lentesEncontrados = await CatTipoGraduacion.findAll({
-                where: {
-                    nombre: { [Op.in]: d.lentes_seleccionados } // Busca todos los que coincidan
-                }
+                where: Sequelize.where(
+                    Sequelize.fn('lower', Sequelize.col('nombre')),
+                    { [Op.in]: lentesInput }
+                )
             });
 
-            // Usamos el método mágico de Sequelize para crear las relaciones
-            // (addCat_TiposGraduacions o addCat_TiposGraduacion dependiendo de tu definición, 
-            //  si definiste belongsToMany, Sequelize crea métodos 'add...').
-            // Una forma más segura manual es:
             for (const lente of lentesEncontrados) {
-                await ConsultaTipoGrad.create({
-                    id_consulta: idC,
-                    id_tipo_grad: lente.id_tipo_grad
-                });
+                await ConsultaTipoGrad.create({ id_consulta: idC, id_tipo_grad: lente.id_tipo_grad });
             }
         }
 
-        // 3. Guardar Tratamientos
+        // B. Tratamientos (Misma lógica)
         if (d.tratamientos_seleccionados && d.tratamientos_seleccionados.length > 0) {
+            const tratInput = d.tratamientos_seleccionados.map(t => t.toLowerCase());
+
             const tratamientosEncontrados = await CatTratamiento.findAll({
-                where: {
-                    nombre: { [Op.in]: d.tratamientos_seleccionados }
-                }
+                where: Sequelize.where(
+                    Sequelize.fn('lower', Sequelize.col('nombre')),
+                    { [Op.in]: tratInput }
+                )
             });
 
             for (const trat of tratamientosEncontrados) {
-                await ConsultaTratamiento.create({
-                    id_consulta: idC,
-                    id_tratamiento: trat.id_tratamiento
-                });
+                await ConsultaTratamiento.create({ id_consulta: idC, id_tratamiento: trat.id_tratamiento });
             }
         }
-
         // ====================================================
         // PASO FINAL: Responder al Frontend
         // ====================================================
@@ -588,34 +620,31 @@ app.get('/api/consultas/:id', async (req, res) => {
 // RUTA 2: ACTUALIZAR (EDITAR) UNA CONSULTA COMPLETA
 // ====================================================
 app.put('/api/consultas/:id', async (req, res) => {
+    console.log(`🔄 Iniciando actualización de consulta ID: ${req.params.id}`);
+    
     try {
-        const idC = req.params.id; // ID de la Consulta
-        const d = req.body;        // Datos nuevos del formulario
+        const idC = req.params.id;
+        const d = req.body;
 
-        console.log(`Actualizando consulta ID: ${idC}`);
-
-        // --- 1. Actualizar Datos Básicos de la Consulta ---
+        // 1. Actualizar Datos Básicos
         await Consulta.update(
-            { observaciones_generales: d.observaciones_generales },
+            { observaciones_generales: d.observaciones_generales }, 
             { where: { id_consulta: idC } }
         );
 
-        // --- 2. Actualizar Antecedentes (Pertenecen al Cliente) ---
-        // Como los antecedentes son únicos por cliente, los actualizamos directamente
+        // 2. Actualizar Antecedentes (Si se envió ID de cliente)
         if (d.id_cliente) {
             await Antecedentes.update(
-                {
-                    personales: d.antecedentes.personales,
-                    no_personales: d.antecedentes.no_personales
+                { 
+                    personales: d.antecedentes.personales, 
+                    no_personales: d.antecedentes.no_personales 
                 },
                 { where: { id_cliente: d.id_cliente } }
             );
         }
 
-        // --- 3. Actualizar Síntomas ---
-        // Estrategia: Borrar el registro viejo y crear uno nuevo (es más limpio que hacer update campo por campo)
+        // 3. Actualizar Síntomas (Borrar y Crear)
         await Sintomas.destroy({ where: { id_consulta: idC } });
-
         await Sintomas.create({
             id_consulta: idC,
             vision_borrosa: d.sintomas.vision_borrosa,
@@ -625,115 +654,125 @@ app.put('/api/consultas/:id', async (req, res) => {
             lagrimeo: d.sintomas.lagrimeo
         });
 
-        // --- 4. Actualizar Agudeza Visual ---
-        // Borramos los 2 registros anteriores (Sin y Con lentes) y creamos los nuevos
+        // 4. Actualizar Agudeza Visual
         await AgudezaVisual.destroy({ where: { id_consulta: idC } });
+        // Aseguramos valores por defecto para evitar error de NULL
+        await AgudezaVisual.create({ id_consulta: idC, tipo: 'SinCorreccion', ...d.agudeza_sin });
+        await AgudezaVisual.create({ id_consulta: idC, tipo: 'ConLentes', ...d.agudeza_con });
 
-        await AgudezaVisual.create({
-            id_consulta: idC,
-            tipo: 'SinCorreccion',
-            vl_od: d.agudeza_sin.vl_od, vl_oi: d.agudeza_sin.vl_oi, vl_ao: d.agudeza_sin.vl_ao,
-            vc_od: d.agudeza_sin.vc_od, vc_oi: d.agudeza_sin.vc_oi, vc_ao: d.agudeza_sin.vc_ao
-        });
-
-        await AgudezaVisual.create({
-            id_consulta: idC,
-            tipo: 'ConLentes',
-            vl_od: d.agudeza_con.vl_od, vl_oi: d.agudeza_con.vl_oi, vl_ao: d.agudeza_con.vl_ao,
-            vc_od: d.agudeza_con.vc_od, vc_oi: d.agudeza_con.vc_oi, vc_ao: d.agudeza_con.vc_ao
-        });
-
-        // --- 5. Actualizar Graduaciones ---
+        // 5. Actualizar Graduaciones
         await GraduacionAnterior.destroy({ where: { id_consulta: idC } });
-        await GraduacionAnterior.create({
-            id_consulta: idC,
-            od_esf: d.grad_anterior.od_esf, od_cyl: d.grad_anterior.od_cyl, od_eje: d.grad_anterior.od_eje, od_add: d.grad_anterior.od_add,
-            oi_esf: d.grad_anterior.oi_esf, oi_cyl: d.grad_anterior.oi_cyl, oi_eje: d.grad_anterior.oi_eje, oi_add: d.grad_anterior.oi_add
-        });
+        await GraduacionAnterior.create({ id_consulta: idC, ...d.grad_anterior });
 
         await GraduacionActual.destroy({ where: { id_consulta: idC } });
-        await GraduacionActual.create({
-            id_consulta: idC,
-            od_esf: d.grad_actual.od_esf, od_cyl: d.grad_actual.od_cyl, od_eje: d.grad_actual.od_eje, od_add: d.grad_actual.od_add,
-            oi_esf: d.grad_actual.oi_esf, oi_cyl: d.grad_actual.oi_cyl, oi_eje: d.grad_actual.oi_eje, oi_add: d.grad_actual.oi_add,
-            dip: d.grad_actual.dip
-        });
+        await GraduacionActual.create({ id_consulta: idC, ...d.grad_actual });
 
-        // --- 6. Actualizar Venta ---
-        // --- 6. Actualizar Venta (CON LOGICA DE STOCK) ---
-
-        // A. RECUPERAR STOCK ANTES DE BORRAR
+        // ============================================================
+        // 6. GESTIÓN DE INVENTARIO Y VENTA (LÓGICA SEGURA)
+        // ============================================================
+        
+        // A. RESTAURAR STOCK (Devolver lo que se vendió antes)
         const ventasAnteriores = await Venta.findAll({ where: { id_consulta: idC } });
-
+        
         for (const ventaVieja of ventasAnteriores) {
-            const productoOriginal = await Producto.findOne({
-                where: { marca: ventaVieja.modeloComprado }
+            // Buscamos producto de forma segura (insensible a mayúsculas para SQLite)
+            const productoOriginal = await Producto.findOne({ 
+                where: Sequelize.where(
+                    Sequelize.fn('lower', Sequelize.col('marca')), 
+                    Sequelize.fn('lower', ventaVieja.modeloComprado)
+                )
             });
 
             if (productoOriginal) {
-                const productoOriginal = await Producto.findOne({ where: { marca: ventaVieja.modeloComprado } });
-
-                if (productoOriginal) {
-                    const stockActual = parseInt(productoOriginal.stock);
-                    const piezasADevolver = parseInt(ventaVieja.cantidad_piezas); // <--- USO CORRECTO
-
-                    await productoOriginal.update({ stock: stockActual + piezasADevolver });
-                }
+                const stockActual = parseInt(productoOriginal.stock) || 0;
+                const devolver = parseInt(ventaVieja.cantidad_piezas) || 1; 
+                
+                await productoOriginal.update({ stock: stockActual + devolver });
+                console.log(`   -> Stock restaurado: +${devolver} a ${productoOriginal.marca}`);
             }
         }
 
-        // B. AHORA SÍ, BORRAMOS EL REGISTRO VIEJO DE VENTA
+        // B. BORRAR VENTAS VIEJAS
         await Venta.destroy({ where: { id_consulta: idC } });
 
-        // C. PROCESAMOS LA NUEVA LISTA (EL CARRITO NUEVO)
+        // C. REGISTRAR NUEVAS VENTAS Y DESCONTAR STOCK
         if (d.productos_venta && d.productos_venta.length > 0) {
             for (const item of d.productos_venta) {
-
-                // Descontamos stock (NUEVO DESCUENTO)
-                if (item.id_producto) {
-                    const prod = await Producto.findByPk(item.id_producto);
-                    if (prod) {
-                        const nuevoStock = prod.stock - item.cantidad;
-                        await prod.update({ stock: nuevoStock });
-                    }
+                
+                // Intentamos buscar por ID primero, si no por Nombre (Seguro)
+                let prod = null;
+                if (item.id_producto && item.id_producto != 0) {
+                    prod = await Producto.findByPk(item.id_producto);
+                } 
+                
+                // Si no se encontró por ID, buscamos por nombre (insensible a mayúsculas)
+                if (!prod && item.nombre) {
+                    prod = await Producto.findOne({ 
+                        where: Sequelize.where(
+                            Sequelize.fn('lower', Sequelize.col('marca')), 
+                            Sequelize.fn('lower', item.nombre)
+                        )
+                    });
                 }
 
-                // Creamos el nuevo registro de venta
+                // Si encontramos el producto, descontamos
+                if (prod) {
+                    const stockActual = parseInt(prod.stock) || 0;
+                    const restar = parseInt(item.cantidad) || 1;
+                    await prod.update({ stock: stockActual - restar });
+                    console.log(`   -> Stock descontado: -${restar} a ${prod.marca}`);
+                }
+
+                // Creamos la venta
                 await Venta.create({
                     id_consulta: idC,
+                    id_cliente: d.id_cliente,
                     modeloComprado: item.nombre,
-                    tipoMaterial: item.material,
-                    cantidadPagada: d.venta.cantidad,
-                    cantidad_piezas: item.cantidad
+                    tipoMaterial: item.material || '',
+                    cantidadPagada: d.venta.cantidad || 0, // Dinero total
+                    cantidad_piezas: item.cantidad || 1    // Piezas de este item
                 });
             }
         }
 
-        // A. Limpiamos relaciones viejas
+        // ============================================================
+        // 7. ACTUALIZAR CATÁLOGOS (FIX SQLITE)
+        // ============================================================
+        const { ConsultaTipoGrad, ConsultaTratamiento, CatTipoGraduacion, CatTratamiento } = require('./models/catalogos.model');
+        const { Op } = require('sequelize');
+
+        // Limpiar relaciones viejas
         await ConsultaTipoGrad.destroy({ where: { id_consulta: idC } });
         await ConsultaTratamiento.destroy({ where: { id_consulta: idC } });
 
-        // B. Insertamos las nuevas (si hay)
+        // Insertar nuevas (Lentes)
         if (d.lentes_seleccionados && d.lentes_seleccionados.length > 0) {
-            const lentes = await CatTipoGraduacion.findAll({ where: { nombre: { [Op.in]: d.lentes_seleccionados } } });
-            for (const lente of lentes) {
+            const lentesInput = d.lentes_seleccionados.map(l => l.toLowerCase());
+            const lentesEncontrados = await CatTipoGraduacion.findAll({
+                where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('nombre')), { [Op.in]: lentesInput })
+            });
+            for (const lente of lentesEncontrados) {
                 await ConsultaTipoGrad.create({ id_consulta: idC, id_tipo_grad: lente.id_tipo_grad });
             }
         }
 
+        // Insertar nuevos (Tratamientos)
         if (d.tratamientos_seleccionados && d.tratamientos_seleccionados.length > 0) {
-            const tratam = await CatTratamiento.findAll({ where: { nombre: { [Op.in]: d.tratamientos_seleccionados } } });
-            for (const trat of tratam) {
+            const tratInput = d.tratamientos_seleccionados.map(t => t.toLowerCase());
+            const tratamientosEncontrados = await CatTratamiento.findAll({
+                where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('nombre')), { [Op.in]: tratInput })
+            });
+            for (const trat of tratamientosEncontrados) {
                 await ConsultaTratamiento.create({ id_consulta: idC, id_tratamiento: trat.id_tratamiento });
             }
         }
 
-        // --- FIN ---
         res.json({ success: true, message: 'Consulta actualizada correctamente' });
 
     } catch (error) {
-        console.error('Error al actualizar consulta:', error);
-        res.status(500).json({ success: false, message: 'Error en el servidor al actualizar.' });
+        console.error('❌ Error CRÍTICO al actualizar:', error);
+        // Esto enviará el error exacto al navegador para que sepamos qué pasó
+        res.status(500).json({ success: false, message: 'Error servidor: ' + error.message });
     }
 });
 
@@ -773,16 +812,22 @@ app.get('/api/avisos/stock-bajo', async (req, res) => {
 // Iniciar todo
 async function iniciarServidor() {
     try {
-        // 1. Intenta conectarse a la base de datos
-        await sequelize.authenticate();
-        console.log('Conexión a MySQL (XAMPP) establecida.');
+        // 1. Sincronizar Base de Datos
+        // Usamos { force: false } para que NO borre los datos de tus clientes cuando reinicies la PC.
+        // Solo creará las tablas si el archivo sqlite no existe.
+        await sequelize.sync({ force: false });
+        console.log('Base de datos sincronizada.');
 
-        // 2. Inicia el servidor web
+        // 2. Insertar los datos obligatorios (Admin y Catálogos)
+        await sembrarDatosIniciales();
+
+        // 3. Arrancar el servidor Express
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
         });
+
     } catch (error) {
-        console.error('No se pudo conectar a la base de datos:', error);
+        console.error('Error CRÍTICO al iniciar:', error);
     }
 }
 
