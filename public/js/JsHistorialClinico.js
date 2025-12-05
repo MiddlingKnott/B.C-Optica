@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         // Redirigimos al formulario de registro con los datos del paciente seleccionado
         // Esto abrirá el modal automáticamente en modo "Crear Nueva Consulta"
-        const url = `/RegistroClinico.html?id=${clienteActual.id_cliente}&nombre=${encodeURIComponent(clienteActual.nombre)}&edad=${clienteActual.edad}`;
+        const url = `/RegistroClinico.html?id=${clienteActual.id_cliente}&nombre=${encodeURIComponent(clienteActual.nombre)}&apellido=${encodeURIComponent(clienteActual.apellido)}&edad=${clienteActual.edad}`;
         window.location.href = url;
     });
 

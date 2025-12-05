@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ============================================================
     // CASO B: MODO CREACIÓN (Paciente Nuevo o Nueva Consulta)
     // ============================================================
-    else if (idClienteUrl && nombreUrl) {
+    else if (idClienteUrl && nombreUrl ) {
 
         const now = new Date();
         const year = now.getFullYear();
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const hoyInput = `${year}-${month}-${day}`; // Ejemplo: "2025-11-26"
 
         headerInfo.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 1.1em;">
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95em;">
             <div>
                 <strong>Paciente:</strong> ${nombreUrl} ${apellidoUrl} &nbsp;|&nbsp;
                 <strong>Edad:</strong> 
