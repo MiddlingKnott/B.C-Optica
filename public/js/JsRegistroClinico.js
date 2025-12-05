@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ============================================================
     // CASO B: MODO CREACIÓN (Paciente Nuevo o Nueva Consulta)
     // ============================================================
-    else if (idClienteUrl && nombreUrl && apellidoUrl) {
+    else if (idClienteUrl && nombreUrl) {
 
         const now = new Date();
         const year = now.getFullYear();
